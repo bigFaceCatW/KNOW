@@ -25,6 +25,10 @@ public class RedisController {
     @Resource
     private com.know.redis.RedisUtil redisUtil;
 
+    /**
+     * redis获取人员
+     *
+     */
     @GetMapping("/redisGet")
     public List<UserDto> consumersTest(){
         UserDto user = new UserDto();

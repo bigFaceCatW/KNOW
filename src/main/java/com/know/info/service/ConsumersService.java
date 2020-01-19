@@ -2,8 +2,8 @@ package com.know.info.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.know.info.dto.UserDto;
 import com.know.info.mapper.UserMapper;
+import com.know.info.dto.UserDto;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,7 +20,7 @@ public class ConsumersService {
     private UserMapper userMapper;
 
     public List<UserDto> questList(int page,int pageNum){
-
+        //分页查询
         PageHelper.startPage(page,pageNum);
         List<UserDto> userList = userMapper.questUserList();
         //得到分页的结果对象
@@ -31,4 +31,20 @@ public class ConsumersService {
        return pageList;
     }
 
+    public List<UserDto> queryIdList(long id) {
+
+        List<UserDto> list = userMapper.queryIdUserList(id);
+       return list;
+    }
+
+    public long post(UserDto userDto) {
+        userMapper.postUser(userDto);
+        System.out.println(userDto.getId());
+       return  userDto.getId();
+    }
+
+    public long addBatchUser(List<UserDto> userDtos) {
+        return userMapper.addBatchUser(userDtos);
+
+    }
 }

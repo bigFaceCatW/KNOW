@@ -5,4 +5,27 @@
         SELECT user_id AS id, user_name AS NAME, org_id AS age FROM USER
     </select>
 
+<!--根据id查询-->
+    <select id="queryIdUserList" resultType="UserDto">
+        SELECT user_id AS id, user_name AS NAME, org_id AS age FROM USER  WHERE user_id=#{id}
+    </select>
+
+    <!--插入返回主键-->
+    <insert id="postUser" useGeneratedKeys="true" keyProperty="id" >
+       insert into user
+        (ORG_ID,USER_CODE,USER_NAME,MPHONE_NO,EMAIL)
+        values
+        (#{orgId},#{userCode},#{userName},#{mphone},#{email});
+    </insert>
+    <!--批量插入-->
+    <insert id="addBatchUser">
+        insert into user
+        (ORG_ID,USER_CODE,USER_NAME,MPHONE_NO,EMAIL)
+        values
+        <foreach collection="list" index="index" item="item"  separator="," >
+            (#{item.orgId},#{item.userCode},#{item.userName},#{item.mphone},#{item.email})
+        </foreach>
+    </insert>
+
+
 </mapper>

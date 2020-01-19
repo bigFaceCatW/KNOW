@@ -1,10 +1,19 @@
 package com.know.info.dto;
 
+import java.io.Serializable;
+
 /**
  * @Author: BigFacecat
  * @Date: 2020/1/9 9:23
  */
-public class UserDto {
+public class UserDto implements Serializable {
+    private static final long serialVersionUID=1L;
+
+    private long orgId;
+    private String userCode;
+    private String userName;
+    private String mphone;
+    private String email;
     private long id;
     private String name;
     private int age;
@@ -12,6 +21,46 @@ public class UserDto {
     private int pageNum;
 
     public UserDto() {
+    }
+
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
+    }
+
+    public String getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(String userCode) {
+        this.userCode = userCode;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getMphone() {
+        return mphone;
+    }
+
+    public void setMphone(String mphone) {
+        this.mphone = mphone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getPage() {
@@ -57,9 +106,16 @@ public class UserDto {
     @Override
     public String toString() {
         return "UserDto{" +
-                "id=" + id +
+                "orgId=" + orgId +
+                ", userCode='" + userCode + '\'' +
+                ", userName='" + userName + '\'' +
+                ", mphone='" + mphone + '\'' +
+                ", email='" + email + '\'' +
+                ", id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +
+                ", page=" + page +
+                ", pageNum=" + pageNum +
                 '}';
     }
 }

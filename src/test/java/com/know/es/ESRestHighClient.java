@@ -48,6 +48,10 @@ public class ESRestHighClient {
 //        service = new RestHighLevelClientService();
 //    }
 
+
+
+
+
     @Test
     public void testAddIndex() {
         String settings = "" +
@@ -91,6 +95,9 @@ public class ESRestHighClient {
 
     }
 
+
+
+
     @Test
     public void deleteIndex() throws IOException {
         service.deleteIndex("idx_pro");
@@ -98,6 +105,7 @@ public class ESRestHighClient {
 
     @Test
     public void addDoc() {
+
 
 
     }

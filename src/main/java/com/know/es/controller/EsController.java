@@ -27,9 +27,6 @@ public class EsController {
                 "}";
 
         IndexResponse response = service.autoAddDoc("idx_clouthing", source);
-
-
-
         return response.toString();
 
 

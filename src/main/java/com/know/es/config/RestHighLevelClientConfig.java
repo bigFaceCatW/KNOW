@@ -53,8 +53,8 @@ public class RestHighLevelClientConfig {
                 System.out.println("监听某个es节点失败");
             }
         });
-        restClientBuilder.setRequestConfigCallback(builder ->
-                builder.setConnectTimeout(connectTimeOut).setSocketTimeout(socketTimeout));
+        //restClientBuilder.setRequestConfigCallback(builder ->
+        //        builder.setConnectTimeout(connectTimeOut).setSocketTimeout(socketTimeout));
         return restClientBuilder;
     }
 

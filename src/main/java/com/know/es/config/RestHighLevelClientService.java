@@ -8,6 +8,8 @@ import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.get.GetRequest;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -30,6 +32,8 @@ import org.elasticsearch.index.reindex.UpdateByQueryRequest;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,6 +70,8 @@ public class RestHighLevelClientService {
         }
         return client.indices().create(request, RequestOptions.DEFAULT);
     }
+
+
 
     /**
      * 删除索引
@@ -142,7 +148,7 @@ public class RestHighLevelClientService {
      */
     public UpdateResponse updateDoc(String indexName, String id, String updateJson) throws IOException{
         UpdateRequest request = new UpdateRequest(indexName, id);
-        request.doc(XContentType.JSON, updateJson);
+        request.doc(updateJson,XContentType.JSON);
         return client.update(request, RequestOptions.DEFAULT);
     }
 
@@ -159,17 +165,16 @@ public class RestHighLevelClientService {
         return client.update(request, RequestOptions.DEFAULT);
     }
 
-    /*
-     * 根据id修改单个文档，单个字段
+    /**一般查询文档
      *
-     * */
-    public UpdateResponse updateOneDoc(String fieldName, String value, String indexName,String id) throws IOException {
-        UpdateRequest  request = new UpdateRequest (indexName,id);
-        request.doc(fieldName,value);
-        return client.update(request, RequestOptions.DEFAULT);
+     *
+     */
 
+    public GetResponse getDoc(String name,String id) throws IOException {
+        GetRequest getRequest = new GetRequest(name,id);
+        GetResponse getResponse = client.get(getRequest, RequestOptions.DEFAULT);
+        return  getResponse;
     }
-
 
     /**
      * 根据某字段的 k-v查询出文档，再将文档通过脚本修改
@@ -217,22 +222,32 @@ public class RestHighLevelClientService {
      * term 查询 精准匹配
      * @param field
      * @param key
-     * @param page
-     * @param size
      * @param indexNames
      * @return
      * @throws IOException
      */
-    public SearchResponse termSearch(String field, String key, int page, int size, String ... indexNames) throws IOException{
-        SearchRequest request = new SearchRequest(indexNames);
+    public SearchResponse termSearch(String field, String key, String ... indexNames) throws IOException{
+        SearchRequest request = new SearchRequest();
         SearchSourceBuilder builder = new SearchSourceBuilder();
-        builder.query(QueryBuilders.termsQuery(field, key))
-                .from(page)
-                .size(size);
+        builder.query(QueryBuilders.termQuery(field, key))
+                .from(0)
+                .size(10);
         request.source(builder);
         return client.search(request, RequestOptions.DEFAULT);
     }
 
+/**
+ * match 对数字和字符连在一起的不分词
+ *
+ */
+    public SearchResponse matchSearch(String field ,String key ,String ... indexNames) throws IOException {
+        SearchRequest request = new SearchRequest(indexNames);
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        builder.query(QueryBuilders.matchQuery(field,key))
+                       .sort(new FieldSortBuilder("_id").order(SortOrder.ASC));
+        request.source(builder);
+        return client.search(request, RequestOptions.DEFAULT);
+    }
 
     /**
      * 批量导入

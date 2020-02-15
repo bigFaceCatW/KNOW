@@ -1,6 +1,10 @@
 package com.know.es;
 
 import com.know.es.config.RestHighLevelClientService;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
-import java.util.Date;
+import java.util.Map;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -48,46 +52,46 @@ public class ESRestHighClient {
 //        service = new RestHighLevelClientService();
 //    }
 
-
+//https://www.cnblogs.com/chenmc/p/9516100.html 各参数解释
 
 
 
     @Test
     public void testAddIndex() {
         String settings = "" +
-                "  {\n" +
-                "      \"number_of_shards\" : \"2\",\n" +
-                "      \"number_of_replicas\" : \"0\"\n" +
+                "  {" +
+                "      \"number_of_shards\" : \"2\"," +
+                "      \"number_of_replicas\" : \"0\"" +
                 "   }";
 
         String mappings = "" +
-                "{\n" +
-                "    \"properties\": {\n" +
-                "      \"proId\" : {\n" +
-                "        \"type\": \"keyword\",\n" +
-                "        \"ignore_above\": 64\n" +
-                "      },\n" +
-                "      \"name\" : {\n" +
-                "        \"type\": \"text\",\n" +
-                "        \"analyzer\": \"ik_max_word\", \n" +
-                "        \"search_analyzer\": \"ik_smart\",\n" +
-                "        \"fields\": {\n" +
-                "          \"keyword\" : {\"ignore_above\" : 256, \"type\" : \"keyword\"}\n" +
-                "        }\n" +
-                "      },\n" +
-                "      \"mytimestamp\" : {\n" +
-                "        \"type\": \"date\",\n" +
-                "        \"format\": \"epoch_millis\"\n" +
-                "      },\n" +
-                "      \"createTime\" : {\n" +
-                "        \"type\": \"date\",\n" +
-                "        \"format\": \"yyyy-MM-dd HH:mm:ss\"\n" +
-                "      }\n" +
-                "    }\n" +
+                "{" +
+                "    \"properties\": {" +
+                "      \"proId\" : {" +
+                "        \"type\": \"keyword\"," +
+                "        \"ignore_above\": 64" +
+                "      }," +
+                "      \"name\" : {" +
+                "        \"type\": \"text\"," +
+                "        \"analyzer\": \"ik_max_word\", " +
+                "        \"search_analyzer\": \"ik_smart\"," +
+                "        \"fields\": {" +
+                "          \"keyword\" : {\"ignore_above\" : 256, \"type\" : \"keyword\"}" +
+                "        }" +
+                "      }," +
+                "      \"mytimestamp\" : {" +
+                "        \"type\": \"date\"," +
+                "        \"format\": \"epoch_millis\"" +
+                "      }," +
+                "      \"createTime\" : {" +
+                "        \"type\": \"date\"," +
+                "        \"format\": \"yyyy-MM-dd HH:mm:ss\"" +
+                "      }" +
+                "    }" +
                 "}";
 
         try {
-            service.createIndex("idx_pro", settings, mappings);
+            service.createIndex("id_pro", settings, mappings);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("创建索引失败");
@@ -98,15 +102,68 @@ public class ESRestHighClient {
 
 
 
+
     @Test
     public void deleteIndex() throws IOException {
         service.deleteIndex("idx_pro");
     }
 
     @Test
-    public void addDoc() {
+    public void addDoc() throws IOException {
+
+        String source = "{" +
+                "  \"proId\" : \"2\"," +
+                "  \"name\" : \"测试去掉/n\"," +
+                "  \"timestamp\" : 1576312053946," +
+                "  \"createTime\" : \"2019-12-12 12:56:56\"" +
+                "  }";
+
+        service.addDoc("client", "2", source);
+
+    }
+
+    @Test
+    public void updateDoc() throws IOException {
+
+        String source = " {" +
+                "  \"proId\":\"3\"," +
+                "  \"name\" : \"2020年2月8日阴天\"" +
+                "  }";
+
+        service.updateDoc("client", "1", source);
+
+    }
+    @Test
+    public  void getDoc() throws IOException {
+       GetResponse getResponse= service.getDoc("client","1");
+        Map<String,Object> map=getResponse.getSource();
+       System.out.println(map.toString());
+    }
 
 
+    @Test
+    public void matchSearch() throws IOException {
+        SearchResponse response =service.matchSearch("name","阴天","client");
+        SearchHits hits = response.getHits();
+        SearchHit[] searchHits = hits.getHits();
+        for (SearchHit hit : searchHits) {
+            Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+            System.out.println(sourceAsMap.get("name"));
+            System.out.println(sourceAsMap.get("createTime"));
+        }
+
+    }
+
+    @Test
+    public void teamsSearch() throws IOException {
+        SearchResponse response =service.termSearch("name","阴天","client");
+        SearchHits hits = response.getHits();
+        SearchHit[] searchHits = hits.getHits();
+        for (SearchHit hit : searchHits) {
+            Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+            System.out.println(sourceAsMap.get("name"));
+            System.out.println(sourceAsMap.get("createTime"));
+        }
 
     }
 
@@ -114,79 +171,71 @@ public class ESRestHighClient {
     public void bulk() throws IOException {
         //不需要[]，奇不奇怪
         String bulkVal = "[" +
-                "\n" +
-                "  {\n" +
-                "  \"proId\" : \"1\",\n" +
-                "  \"name\" : \"冬日工装裤\",\n" +
-                "  \"timestamp\" : 1576312053946,\n" +
-                "  \"createTime\" : \"2019-12-12 12:56:56\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "  \"proId\" : \"2\",\n" +
-                "  \"name\" : \"冬日羽绒服\",\n" +
-                "  \"timestamp\" : 1576313210024,\n" +
-                "  \"createTime\" : \"2019-12-10 10:50:50\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "  \"proId\" : \"3\",\n" +
-                "  \"name\" : \"花花公子外套\",\n" +
-                "  \"timestamp\" : 1576313239816,\n" +
-                "  \"createTime\" : \"2019-12-19 12:50:50\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "  \"proId\" : \"4\",\n" +
-                "  \"name\" : \"花花公子羽绒服\",\n" +
-                "  \"timestamp\" : 1576313264391,\n" +
-                "  \"createTime\" : \"2019-12-12 11:56:56\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "  \"proId\" : \"5\",\n" +
-                "  \"name\" : \"花花公子暖心羽绒服\",\n" +
-                "  \"timestamp\" : 1576313264491,\n" +
-                "  \"createTime\" : \"2019-12-19 11:56:56\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "  \"proId\" : \"6\",\n" +
-                "  \"name\" : \"花花公子帅气外套\",\n" +
-                "  \"timestamp\" : 1576313264691,\n" +
-                "  \"createTime\" : \"2019-12-19 15:56:56\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "  \"proId\" : \"7\",\n" +
-                "  \"name\" : \"冬天暖心羽绒服\",\n" +
-                "  \"timestamp\" : 1576313265491,\n" +
-                "  \"createTime\" : \"2019-12-19 17:56:56\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "  \"proId\" : \"8\",\n" +
-                "  \"name\" : \"冬天超级暖心羽绒服\",\n" +
-                "  \"timestamp\" : 1576313275491,\n" +
-                "  \"createTime\" : \"2019-12-20 17:56:56\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "  \"proId\" : \"9\",\n" +
-                "  \"name\" : \"\",\n" +
-                "  \"timestamp\" : 1576313275491,\n" +
-                "  \"createTime\" : \"2019-12-20 17:56:56\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "  \"proId\" : \"9\",\n" +
-                "  \"name\" : [],\n" +
-                "  \"timestamp\" : 1576313275491,\n" +
-                "  \"createTime\" : \"2019-12-20 17:56:56\"\n" +
-                "  }\n" +
+                "" +
+                "  {" +
+                "  \"proId\" : \"1\"," +
+                "  \"name\" : \"冬日工装裤\"," +
+                "  \"timestamp\" : 1576312053946," +
+                "  \"createTime\" : \"2019-12-12 12:56:56\"" +
+                "  }," +
+                "  {" +
+                "  \"proId\" : \"2\"," +
+                "  \"name\" : \"冬日羽绒服\"," +
+                "  \"timestamp\" : 1576313210024," +
+                "  \"createTime\" : \"2019-12-10 10:50:50\"" +
+                "  }," +
+                "  {" +
+                "  \"proId\" : \"3\"," +
+                "  \"name\" : \"花花公子外套\"," +
+                "  \"timestamp\" : 1576313239816," +
+                "  \"createTime\" : \"2019-12-19 12:50:50\"" +
+                "  }," +
+                "  {" +
+                "  \"proId\" : \"4\"," +
+                "  \"name\" : \"花花公子羽绒服\"," +
+                "  \"timestamp\" : 1576313264391," +
+                "  \"createTime\" : \"2019-12-12 11:56:56\"" +
+                "  }," +
+                "  {" +
+                "  \"proId\" : \"5\"," +
+                "  \"name\" : \"花花公子暖心羽绒服\"," +
+                "  \"timestamp\" : 1576313264491," +
+                "  \"createTime\" : \"2019-12-19 11:56:56\"" +
+                "  }," +
+                "  {" +
+                "  \"proId\" : \"6\"," +
+                "  \"name\" : \"花花公子帅气外套\"," +
+                "  \"timestamp\" : 1576313264691," +
+                "  \"createTime\" : \"2019-12-19 15:56:56\"" +
+                "  }," +
+                "  {" +
+                "  \"proId\" : \"7\"," +
+                "  \"name\" : \"冬天暖心羽绒服\"," +
+                "  \"timestamp\" : 1576313265491," +
+                "  \"createTime\" : \"2019-12-19 17:56:56\"" +
+                "  }," +
+                "  {" +
+                "  \"proId\" : \"8\"," +
+                "  \"name\" : \"冬天超级暖心羽绒服\"," +
+                "  \"timestamp\" : 1576313275491," +
+                "  \"createTime\" : \"2019-12-20 17:56:56\"" +
+                "  }," +
+                "  {" +
+                "  \"proId\" : \"9\"," +
+                "  \"name\" : \"\"," +
+                "  \"timestamp\" : 1576313275491," +
+                "  \"createTime\" : \"2019-12-20 17:56:56\"" +
+                "  }," +
+                "  {" +
+                "  \"proId\" : \"9\"," +
+                "  \"name\" : []," +
+                "  \"timestamp\" : 1576313275491," +
+                "  \"createTime\" : \"2019-12-20 17:56:56\"" +
+                "  }" +
                 "]";
         service.importAll("idx_pro", true, bulkVal);
     }
 
-    @Test
-    public void testSearch() {
-    }
 
-    @Test
-    public void testMain() {
-        Date date = new Date();
-        System.out.println(date.getTime());
-    }
 
 }

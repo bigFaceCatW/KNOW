@@ -75,7 +75,7 @@ public class RestHighLevelClientService {
 
     /**
      * 删除索引
-     * @param indexNames
+     * @param indexNames 索引名称
      * @return
      * @throws IOException
      */

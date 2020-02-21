@@ -9,7 +9,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
  * @Author: Facecat
  * @Date: 2020/2/20 22:50
  */
-public class zkWatcher {
+public class ZkWatcher {
     /**
      * PathChildCache --针对子节点的创建，删除，更新触发事件
      * NodeCache  针对当前节点的变化触发事件

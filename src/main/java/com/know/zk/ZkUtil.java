@@ -9,7 +9,7 @@ import javax.annotation.Resource;
  * @Author: Facecat
  * @Date: 2020/2/4 10:28
  */
-public class zkUtil {
+public class ZkUtil {
 
    @Resource
     private CuratorFramework curatorFramework;
@@ -23,7 +23,7 @@ public class zkUtil {
     }
 
     public static void main(String[] args) {
-        zkUtil zk = new zkUtil();
+        ZkUtil zk = new ZkUtil();
 
 
     }

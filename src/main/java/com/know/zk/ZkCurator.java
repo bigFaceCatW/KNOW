@@ -2,44 +2,55 @@ package com.know.zk;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.framework.recipes.cache.NodeCache;
-import org.apache.curator.framework.recipes.cache.NodeCacheListener;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.data.Stat;
 
 /**
  * @Author: Facecat
  * @Date: 2020/2/3 21:28
  */
-@Configuration
+
 public class ZkCurator {
 
-    @Value("${zk.host}")
-    private String host;
 
 
-    @Bean
+
+    /*@Bean
     public  CuratorFramework curatorConfig(){
-        CuratorFramework curatorFramework = CuratorFrameworkFactory.builder()
+        CuratorFramework zkClient  = CuratorFrameworkFactory.builder()
                 .connectString(host)//集群直接，分割增加
                 .sessionTimeoutMs(5000)
                 .retryPolicy(new ExponentialBackoffRetry(1000, 3))//容错重试每睡1秒重试一次，总共3次，递增增加时间
                 .build();
 
-        curatorFramework.start();
-        return curatorFramework;
-    }
+        zkClient.start();
+        return zkClient;
+    }*/
     //45分钟crud 49分钟ACL权限  64分钟watcher  83分钟API使用
 
-    private static void addListenWithNode(CuratorFramework curatorFramework) throws Exception {
-        NodeCache nodeCache = new NodeCache(curatorFramework,"/watch",false);
-        NodeCacheListener nodeCacheListener =() -> {
 
-        };
-          nodeCache.getListenable().addListener(nodeCacheListener);
-          nodeCache.start();
+    private static void createDate(CuratorFramework curatorFramework) throws Exception {
+        curatorFramework.create().creatingParentsIfNeeded()
+                .withMode(CreateMode.PERSISTENT)
+                .forPath("/curator/data","curator".getBytes());
+    }
+
+    private  static  void updateDate(CuratorFramework curatorFramework) throws Exception {
+        curatorFramework.setData().forPath("/curator/data", "update".getBytes());
+    }
+
+    private  static  void deleteDate(CuratorFramework curatorFramework) throws Exception {
+        Stat stat = new Stat();
+        String value = new String(curatorFramework.getData().storingStatIn(stat).forPath("/curator/data"));
+        //获取版本号,同时返回节点信息
+        curatorFramework.delete().withVersion(stat.getVersion()).forPath("/curator/data");
+    }
+
+    private  static  void queryDate(CuratorFramework curatorFramework) throws Exception {
+        Stat stat = new Stat();
+        String value = new String(curatorFramework.getData().storingStatIn(stat).forPath("/curator/data"));
+        System.out.println(value); //获取对应的值
     }
 
 
@@ -52,7 +63,12 @@ public class ZkCurator {
 
         curatorFramework.start();
 
-        //ZkCurator.createData(curatorFramework);
+        updateDate(curatorFramework);
+        //createDate(curatorFramework);
+
+        /*List<ACL> list = new ArrayList<>();
+        ACL acl = new ACL(ZooDefs.Perms.READ,new Id("digest","admin:password"));
+        curatorFramework.create().withMode(CreateMode.EPHEMERAL).withACL().forPath("/auth");*/
 
 
 

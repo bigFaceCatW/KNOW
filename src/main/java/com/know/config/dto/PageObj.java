@@ -11,7 +11,6 @@ import java.io.Serializable;
  */
 public class PageObj implements Serializable {
 
-        /** 默认serialVersionUID*/
         private static final long serialVersionUID = 1L;
 
         /**每一页的记录数*/

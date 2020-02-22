@@ -71,8 +71,6 @@ public class RestHighLevelClientService {
         return client.indices().create(request, RequestOptions.DEFAULT);
     }
 
-
-
     /**
      * 删除索引
      * @param indexNames 索引名称
@@ -258,14 +256,10 @@ public class RestHighLevelClientService {
      * @throws IOException
      */
     public BulkResponse importAll(String indexName, boolean isAutoId,  String  source) throws IOException{
-        if (0 == source.length()){
-            //todo 抛出异常 导入数据为空
-        }
         BulkRequest request = new BulkRequest();
 
         JSONArray array = JSON.parseArray(source);
 
-        //todo 识别json数组
         if (isAutoId) {
             for (Object s : array) {
                 request.add(new IndexRequest(indexName).source(s, XContentType.JSON));

@@ -13,8 +13,10 @@ import java.util.Map;
  */
 @Service
 public class GlobalApplicationContextHolder implements ApplicationContextAware{
-	
-	//spring容器
+	/**
+	 * spring上下文容器
+	 *
+	 */
 	private static ApplicationContext context;
 
 	@Override

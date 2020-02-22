@@ -16,7 +16,6 @@ public class EncryptUtil {
 	/**
 	 * 默认实现为MD5加密
 	 * 
-	 * @param s
 	 * @return
 	 */
 	public static String doEncrypt(String plainText) {

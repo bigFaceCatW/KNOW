@@ -5,6 +5,7 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.cache.*;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
+
 /**
  * @Author: Facecat
  * @Date: 2020/2/20 22:50
@@ -50,8 +51,8 @@ public class ZkWatcher {
                 .build();
 
         curatorFramework.start();
-//        addListenWithNode(curatorFramework);
-        addListenWithChild(curatorFramework);
+        addListenWithNode(curatorFramework);
+//        addListenWithChild(curatorFramework);
 
 
     }

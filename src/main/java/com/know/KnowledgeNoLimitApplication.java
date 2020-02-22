@@ -15,4 +15,12 @@ public class KnowledgeNoLimitApplication {
         SpringApplication.run(KnowledgeNoLimitApplication.class, args);
     }
 
+    /*
+    * new SpringApplicationBuilder(SpringCloudClientApplication.class)
+    * .web(WebApplicationType.SERVLET)
+    * .run(args);
+    *
+    *
+    * */
+
 }

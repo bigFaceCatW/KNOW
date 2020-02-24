@@ -22,7 +22,8 @@ public class ConsumersService {
     public List<UserDto> questList(int page,int pageNum){
         //分页查询
         PageHelper.startPage(page,pageNum);
-        List<UserDto> userList = userMapper.questUserList();
+        UserDto userDto = new UserDto();
+        List<UserDto> userList = userMapper.questUserList(userDto);
         //得到分页的结果对象
         PageInfo<UserDto> userPageInfo = new PageInfo<>(userList);
         //得到分页中的UserDto条目对象
@@ -46,5 +47,10 @@ public class ConsumersService {
     public long addBatchUser(List<UserDto> userDtos) {
         return userMapper.addBatchUser(userDtos);
 
+    }
+
+    public List<UserDto> queryDtoList(UserDto userDto) {
+        List<UserDto> list = userMapper.questUserList(userDto);
+        return list;
     }
 }

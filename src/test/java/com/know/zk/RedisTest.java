@@ -21,8 +21,12 @@ public class RedisTest {
 
     @Test
     public  void set(){
-        redisUtil.set("key", "20200222");
+        redisUtil.set("key", "2020");
     }
-
+    @Test
+    public  void get(){
+       Object str= redisUtil.get("key");
+       System.out.println(str);
+    }
 
 }

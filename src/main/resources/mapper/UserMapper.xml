@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.know.info.mapper.UserMapper">
-    <select id="questUserList" resultType="UserDto">
-        SELECT user_id AS id, user_name AS NAME, org_id AS age FROM USER
+    <!--1对1查询-->
+   <resultMap type="userDto" id="userMap">
+        <id column="id" property="id"/>
+        <result column="userName" property="userName"/>
+        <result column="orgId" property="orgId"/>
+
+        <association property="orgDto" javaType="OrgDto">
+            <result column="orgIds" property="orgId"/>
+            <result column="CREATE_TIME" property="createTime"/>
+        </association>
+    </resultMap>
+    <!--DATE_FORMAT(b.CREATE_TIME, '%Y-%m-%d') AS E_DATE-->
+    <select id="questUserList" resultType="UserDto" resultMap="userMap">
+        SELECT a.user_id AS id, a.user_name AS userName, a.org_id AS orgId,b.ID as orgIds,b.CREATE_TIME
+         FROM USER a LEFT JOIN usi_org b ON a.org_id=b.ID WHERE b.ID=#{orgDto.orgId}
     </select>
+
 
 <!--根据id查询-->
     <select id="queryIdUserList" resultType="UserDto">

@@ -25,7 +25,6 @@ public class EsController {
                 "  \"num\" : 800,\n" +
                 "  \"date\" : \"2019-07-28\"\n" +
                 "}";
-
         IndexResponse response = service.autoAddDoc("idx_clouthing", source);
         return response.toString();
 

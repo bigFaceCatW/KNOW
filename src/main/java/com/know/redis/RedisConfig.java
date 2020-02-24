@@ -45,6 +45,7 @@ public class RedisConfig {
             String[] hp = node.split(":");
             nodes.add(new HostAndPort(hp[0],Integer.parseInt(hp[1])));
         }
+//       构建连接池
         JedisPoolConfig jedisPoolConfig =new JedisPoolConfig();
         jedisPoolConfig.setMaxIdle(maxIdle);
         jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);

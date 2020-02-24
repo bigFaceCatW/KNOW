@@ -1,6 +1,7 @@
 package com.know.info.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Author: BigFacecat
@@ -19,6 +20,24 @@ public class UserDto implements Serializable {
     private int age;
     private int page;
     private int pageNum;
+    private OrgDto orgDto;
+    private List<UserFamilyDto> userFamilyDtos;
+
+    public OrgDto getOrgDto() {
+        return orgDto;
+    }
+
+    public void setOrgDto(OrgDto orgDto) {
+        this.orgDto = orgDto;
+    }
+
+    public List<UserFamilyDto> getUserFamilyDtos() {
+        return userFamilyDtos;
+    }
+
+    public void setUserFamilyDtos(List<UserFamilyDto> userFamilyDtos) {
+        this.userFamilyDtos = userFamilyDtos;
+    }
 
     public UserDto() {
     }

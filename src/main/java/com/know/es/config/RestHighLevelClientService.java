@@ -24,7 +24,6 @@ import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
@@ -51,6 +50,7 @@ public class RestHighLevelClientService {
 
     @Autowired
     private RestHighLevelClient client;
+
 
     /**
      * 创建索引
@@ -194,24 +194,38 @@ public class RestHighLevelClientService {
         return client.updateByQuery(request, RequestOptions.DEFAULT);
     }
 
+//==================================================查询===========================================
 
 
-    /**
-     * 简单模糊匹配 默认分页为 0,10
-     * @param field
-     * @param key
+
+    /**多匹配查询
+     * @param fields
+     * @param indexName
      * @param page
      * @param size
-     * @param indexNames
-     * @return
-     * @throws IOException
+     * @param fields
      */
-    public SearchResponse search(String field, String key, int page, int size, String ... indexNames) throws IOException{
-        SearchRequest request = new SearchRequest(indexNames);
+    public  SearchResponse searchMultiMatch(String key, String indexName, int page, int size, String ... fields) throws IOException {
+        SearchRequest request = new SearchRequest(indexName);
         SearchSourceBuilder builder = new SearchSourceBuilder();
-        builder.query(new MatchQueryBuilder(field, key))
+        builder.query(QueryBuilders.multiMatchQuery(key, fields))
+                .sort(new FieldSortBuilder("_id").order(SortOrder.ASC))
                 .from(page)
                 .size(size);
+        request.source(builder);
+        return client.search(request, RequestOptions.DEFAULT);
+
+    }
+
+    /**
+     * match 对数字和字符连在一起的不分词,按照id排序
+     *
+     */
+    public SearchResponse matchSearch(String field ,String key ,String ... indexNames) throws IOException {
+        SearchRequest request = new SearchRequest(indexNames);
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        builder.query(QueryBuilders.matchQuery(field,key))
+                .sort(new FieldSortBuilder("_id").order(SortOrder.ASC));
         request.source(builder);
         return client.search(request, RequestOptions.DEFAULT);
     }
@@ -225,7 +239,7 @@ public class RestHighLevelClientService {
      * @throws IOException
      */
     public SearchResponse termSearch(String field, String key, String ... indexNames) throws IOException{
-        SearchRequest request = new SearchRequest();
+        SearchRequest request = new SearchRequest(indexNames);
         SearchSourceBuilder builder = new SearchSourceBuilder();
         builder.query(QueryBuilders.termQuery(field, key))
                 .from(0)
@@ -234,18 +248,18 @@ public class RestHighLevelClientService {
         return client.search(request, RequestOptions.DEFAULT);
     }
 
-/**
- * match 对数字和字符连在一起的不分词
- *
- */
-    public SearchResponse matchSearch(String field ,String key ,String ... indexNames) throws IOException {
+    public SearchResponse SearchLike(String field ,String key ,String ... indexNames) throws IOException {
         SearchRequest request = new SearchRequest(indexNames);
         SearchSourceBuilder builder = new SearchSourceBuilder();
-        builder.query(QueryBuilders.matchQuery(field,key))
-                       .sort(new FieldSortBuilder("_id").order(SortOrder.ASC));
+        builder.query(QueryBuilders.queryStringQuery(field).field(key));
         request.source(builder);
         return client.search(request, RequestOptions.DEFAULT);
     }
+
+
+
+
+
 
     /**
      * 批量导入
@@ -257,18 +271,22 @@ public class RestHighLevelClientService {
      */
     public BulkResponse importAll(String indexName, boolean isAutoId,  String  source) throws IOException{
         BulkRequest request = new BulkRequest();
-
         JSONArray array = JSON.parseArray(source);
-
         if (isAutoId) {
             for (Object s : array) {
-                request.add(new IndexRequest(indexName).source(s, XContentType.JSON));
+                request.add(new IndexRequest(indexName).source(JSONObject.toJSONString(s), XContentType.JSON));
             }
         } else {
             for (Object s : array) {
-                request.add(new IndexRequest(indexName).id(JSONObject.parseObject(s.toString()).getString("id")).source(s, XContentType.JSON));
+                request.add(new IndexRequest(indexName).id(JSONObject.parseObject(s.toString()).getString("age")).source(JSONObject.toJSONString(s), XContentType.JSON));
             }
         }
         return client.bulk(request, RequestOptions.DEFAULT);
     }
+
+
+
+
+
 }
+

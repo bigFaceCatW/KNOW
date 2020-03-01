@@ -60,16 +60,19 @@ public class ESRestHighClient {
     public void testAddIndex() {
         String settings = "" +
                 "  {" +
-                "      \"number_of_shards\" : \"2\"," +
+                "      \"number_of_shards\" : \"3\"," +
                 "      \"number_of_replicas\" : \"0\"" +
                 "   }";
 
         String mappings = "" +
                 "{" +
                 "    \"properties\": {" +
-                "      \"proId\" : {" +
+                "      \"pro\" : {" +
                 "        \"type\": \"keyword\"," +
                 "        \"ignore_above\": 64" +
+                "      }," +
+                "      \"english\" : {" +
+                "        \"type\": \"text\"" +
                 "      }," +
                 "      \"name\" : {" +
                 "        \"type\": \"text\"," +
@@ -79,9 +82,14 @@ public class ESRestHighClient {
                 "          \"keyword\" : {\"ignore_above\" : 256, \"type\" : \"keyword\"}" +
                 "        }" +
                 "      }," +
-                "      \"mytimestamp\" : {" +
-                "        \"type\": \"date\"," +
-                "        \"format\": \"epoch_millis\"" +
+                "      \"address\" : {" +
+                "        \"type\": \"text\"," +
+                "        \"fields\": {" +
+                "          \"keyword\" : {\"ignore_above\" : 256, \"type\" : \"keyword\"}" +
+                "        }" +
+                "      }," +
+                "      \"age\" : {" +
+                "        \"type\": \"long\"" +
                 "      }," +
                 "      \"createTime\" : {" +
                 "        \"type\": \"date\"," +
@@ -91,17 +99,13 @@ public class ESRestHighClient {
                 "}";
 
         try {
-            service.createIndex("id_pro", settings, mappings);
+            service.createIndex("cat", settings, mappings);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("创建索引失败");
         }
 
     }
-
-
-
-
 
     @Test
     public void deleteIndex() throws IOException {
@@ -112,13 +116,15 @@ public class ESRestHighClient {
     public void addDoc() throws IOException {
 
         String source = "{" +
-                "  \"proId\" : \"2\"," +
-                "  \"name\" : \"测试去掉/n\"," +
-                "  \"timestamp\" : 1576312053946," +
-                "  \"createTime\" : \"2019-12-12 12:56:56\"" +
+                "  \"pro\" : \"ake\"," +
+                "  \"english\" : \"siwang shizui meihaode diaoling\"," +
+                "  \"name\" : \"阿轲\"," +
+                "  \"adress\" : \"韩国\"," +
+                "  \"age\" : 24," +
+                "  \"create\" : \"2020-02-23\"" +
                 "  }";
 
-        service.addDoc("client", "2", source);
+        service.addDoc("cat", "2", source);
 
     }
 
@@ -126,11 +132,14 @@ public class ESRestHighClient {
     public void updateDoc() throws IOException {
 
         String source = " {" +
-                "  \"proId\":\"3\"," +
-                "  \"name\" : \"2020年2月8日阴天\"" +
+                "  \"pro\" : \"juzi\"," +
+                "  \"name\" : \"橘右京\"," +
+                "  \"address\" : \"吴国\"," +
+                "  \"age\" : 2," +
+                "  \"create\" : \"2020-02-19\"" +
                 "  }";
 
-        service.updateDoc("client", "1", source);
+        service.updateDoc("cat", "2", source);
 
     }
     @Test
@@ -143,29 +152,61 @@ public class ESRestHighClient {
 
     @Test
     public void matchSearch() throws IOException {
-        SearchResponse response =service.matchSearch("name","阴天","client");
+        SearchResponse response =service.matchSearch("adress","魏国","cat");
         SearchHits hits = response.getHits();
         SearchHit[] searchHits = hits.getHits();
         for (SearchHit hit : searchHits) {
             Map<String, Object> sourceAsMap = hit.getSourceAsMap();
-            System.out.println(sourceAsMap.get("name"));
-            System.out.println(sourceAsMap.get("createTime"));
+            System.out.println(sourceAsMap.toString());
+        }
+
+    }
+    @Test
+    public void searchMultiMatch() throws IOException {
+        SearchResponse response =service.searchMultiMatch("魏国","cat",0,10,"adress","name");
+        SearchHits hits = response.getHits();
+        SearchHit[] searchHits = hits.getHits();
+        for (SearchHit hit : searchHits) {
+            Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+            System.out.println(sourceAsMap.toString());
         }
 
     }
 
     @Test
-    public void teamsSearch() throws IOException {
-        SearchResponse response =service.termSearch("name","阴天","client");
+    public void SearchLike() throws IOException {
+        SearchResponse response = service.SearchLike("蜀", "adress", "cat");
         SearchHits hits = response.getHits();
         SearchHit[] searchHits = hits.getHits();
         for (SearchHit hit : searchHits) {
             Map<String, Object> sourceAsMap = hit.getSourceAsMap();
-            System.out.println(sourceAsMap.get("name"));
-            System.out.println(sourceAsMap.get("createTime"));
+            System.out.println(sourceAsMap.toString());
         }
 
     }
+
+
+
+
+
+    @Test
+    public void teamsSearch() throws IOException {
+        SearchResponse response =service.termSearch("age","25","cat");
+        SearchHits hits = response.getHits();
+        SearchHit[] searchHits = hits.getHits();
+        for (SearchHit hit : searchHits) {
+            Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+            System.out.println(sourceAsMap.toString());
+        }
+
+    }
+
+
+
+
+
+
+
 
     @Test
     public void bulk() throws IOException {
@@ -173,67 +214,23 @@ public class ESRestHighClient {
         String bulkVal = "[" +
                 "" +
                 "  {" +
-                "  \"proId\" : \"1\"," +
-                "  \"name\" : \"冬日工装裤\"," +
-                "  \"timestamp\" : 1576312053946," +
-                "  \"createTime\" : \"2019-12-12 12:56:56\"" +
+                "  \"pro\" : \"zhouyu\"," +
+                "  \"english\" : \"nimen doushi tantu wode meimao\"," +
+                "  \"name\" : \"周瑜\"," +
+                "  \"adress\" : \"吴国\"," +
+                "  \"age\" : 11," +
+                "  \"create\" : \"2020-02-20\"" +
                 "  }," +
                 "  {" +
-                "  \"proId\" : \"2\"," +
-                "  \"name\" : \"冬日羽绒服\"," +
-                "  \"timestamp\" : 1576313210024," +
-                "  \"createTime\" : \"2019-12-10 10:50:50\"" +
-                "  }," +
-                "  {" +
-                "  \"proId\" : \"3\"," +
-                "  \"name\" : \"花花公子外套\"," +
-                "  \"timestamp\" : 1576313239816," +
-                "  \"createTime\" : \"2019-12-19 12:50:50\"" +
-                "  }," +
-                "  {" +
-                "  \"proId\" : \"4\"," +
-                "  \"name\" : \"花花公子羽绒服\"," +
-                "  \"timestamp\" : 1576313264391," +
-                "  \"createTime\" : \"2019-12-12 11:56:56\"" +
-                "  }," +
-                "  {" +
-                "  \"proId\" : \"5\"," +
-                "  \"name\" : \"花花公子暖心羽绒服\"," +
-                "  \"timestamp\" : 1576313264491," +
-                "  \"createTime\" : \"2019-12-19 11:56:56\"" +
-                "  }," +
-                "  {" +
-                "  \"proId\" : \"6\"," +
-                "  \"name\" : \"花花公子帅气外套\"," +
-                "  \"timestamp\" : 1576313264691," +
-                "  \"createTime\" : \"2019-12-19 15:56:56\"" +
-                "  }," +
-                "  {" +
-                "  \"proId\" : \"7\"," +
-                "  \"name\" : \"冬天暖心羽绒服\"," +
-                "  \"timestamp\" : 1576313265491," +
-                "  \"createTime\" : \"2019-12-19 17:56:56\"" +
-                "  }," +
-                "  {" +
-                "  \"proId\" : \"8\"," +
-                "  \"name\" : \"冬天超级暖心羽绒服\"," +
-                "  \"timestamp\" : 1576313275491," +
-                "  \"createTime\" : \"2019-12-20 17:56:56\"" +
-                "  }," +
-                "  {" +
-                "  \"proId\" : \"9\"," +
-                "  \"name\" : \"\"," +
-                "  \"timestamp\" : 1576313275491," +
-                "  \"createTime\" : \"2019-12-20 17:56:56\"" +
-                "  }," +
-                "  {" +
-                "  \"proId\" : \"9\"," +
-                "  \"name\" : []," +
-                "  \"timestamp\" : 1576313275491," +
-                "  \"createTime\" : \"2019-12-20 17:56:56\"" +
+                "  \"pro\" : \"daqiao\"," +
+                "  \"english\" : \"handon lingzhi\"," +
+                "  \"name\" : \"大乔\"," +
+                "  \"adress\" : \"吴国\"," +
+                "  \"age\" : 12," +
+                "  \"create\" : \"2020-02-21\"" +
                 "  }" +
                 "]";
-        service.importAll("idx_pro", true, bulkVal);
+        service.importAll("cat", false, bulkVal);
     }
 
 

@@ -1,5 +1,7 @@
 package com.know.config.dto;
 
+import org.springframework.stereotype.Component;
+
 import java.io.Serializable;
 
 
@@ -9,6 +11,7 @@ import java.io.Serializable;
  * @Author: Facecat
  * @Date: 2020/2/15 15:01
  */
+@Component
 public class PageObj implements Serializable {
 
         private static final long serialVersionUID = 1L;
@@ -22,7 +25,17 @@ public class PageObj implements Serializable {
         /**总记录数*/
         private int total;
 
-        /**
+        private String content;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    /**
          * 获取每一页的记录数
          * @return 每一页的记录数
          */

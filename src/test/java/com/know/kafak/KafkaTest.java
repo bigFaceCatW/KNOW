@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 
 /**
  * @Author: Facecat
@@ -25,10 +24,9 @@ public class KafkaTest {
     private PageObj pageObj;
 
     @Test
-    public  void producer() throws IOException {
+    public  void producer()  {
         String message = "Hello World---";
 
-        kafkaConfig.send(message);
-        System.in.read();
+//        System.in.read();
     }
 }

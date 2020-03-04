@@ -21,7 +21,7 @@ import java.util.UUID;
 @Configuration
 @Slf4j
 @EnableScheduling
-public class KafkaConfig {
+public class KafkaProducer {
 
     @Resource
     private KafkaTemplate<Integer, String> kafkaTemplate;
@@ -33,7 +33,7 @@ public class KafkaConfig {
     @Scheduled(cron = "0/5 * * * * ?")
     public void send() {
              String message = UUID.randomUUID().toString();
-        ListenableFuture<SendResult<Integer, String>> future= kafkaTemplate.send(topic,1,message);
+        ListenableFuture<SendResult<Integer, String>> future= kafkaTemplate.send(topic,1,1,message);
         future.addCallback(success -> log.info("发送消息成功:" + message),
                 fail -> log.error("KafkaMessageProducer 发送消息失败！"));
 

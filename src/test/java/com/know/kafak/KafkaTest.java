@@ -1,7 +1,7 @@
 package com.know.kafak;
 
 import com.know.config.dto.PageObj;
-import com.know.kafka.KafkaConfig;
+import com.know.kafka.KafkaProducer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 public class KafkaTest {
 
     @Resource
-    private KafkaConfig kafkaConfig;
+    private KafkaProducer kafkaProducer;
     @Resource
     private PageObj pageObj;
 

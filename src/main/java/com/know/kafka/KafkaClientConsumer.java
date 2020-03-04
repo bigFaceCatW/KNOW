@@ -20,7 +20,7 @@ import java.util.Properties;
 
 
 
-public class KafkaApacheConsumer extends Thread {
+public class KafkaClientConsumer extends Thread {
 
     private final String topic;
 
@@ -28,7 +28,7 @@ public class KafkaApacheConsumer extends Thread {
 
     private  final KafkaConsumer kafkaConsumer;
 
-    public  KafkaApacheConsumer (String topic){
+    public  KafkaClientConsumer (String topic){
         this.topic=topic;
         Properties properties = new Properties();
         properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
@@ -59,7 +59,7 @@ public class KafkaApacheConsumer extends Thread {
 
 
     public static void main(String[] args) {
-        new KafkaApacheConsumer("topicChannle").start();
+        new KafkaClientConsumer("topicChannle").start();
     }
 
 

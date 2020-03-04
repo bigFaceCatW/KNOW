@@ -6,8 +6,8 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.TopicPartition;
-import org.apache.kafka.common.serialization.IntegerSerializer;
-import org.apache.kafka.common.serialization.StringSerializer;
+import org.apache.kafka.common.serialization.IntegerDeserializer;
+import org.apache.kafka.common.serialization.StringDeserializer;
 
 import java.util.Arrays;
 import java.util.Properties;
@@ -37,8 +37,8 @@ public class KafkaClientConsumer extends Thread {
         properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");    //自动提交
         properties.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");//自动提交间隔时间（批量确认）
         properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");//一个新的消费者去消费所有未被消息的
-        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerSerializer.class.getName());
-        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
+        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class.getName());
+        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         kafkaConsumer = new KafkaConsumer(properties);
 //        kafkaConsumer.subscribe(Collections.singletonList(topic));
         TopicPartition topicPartition = new TopicPartition(topic,0); //接收指定的分区消息
@@ -59,7 +59,7 @@ public class KafkaClientConsumer extends Thread {
 
 
     public static void main(String[] args) {
-        new KafkaClientConsumer("topicChannle").start();
+        new KafkaClientConsumer("java1").start();
     }
 
 

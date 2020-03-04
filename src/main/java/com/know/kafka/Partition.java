@@ -1,5 +1,11 @@
-/*
+
 package com.know.kafka;
+
+
+/**
+ * @Author: Facecat
+ * @Date: 2020/3/3 22:24
+ */
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.kafka.clients.producer.Partitioner;
@@ -9,11 +15,6 @@ import org.apache.kafka.common.PartitionInfo;
 import java.util.List;
 import java.util.Map;
 
-*/
-/**
- * @Author: Facecat
- * @Date: 2020/3/3 22:24
- *//*
 
 public class Partition implements Partitioner {
     @Override
@@ -39,4 +40,5 @@ public class Partition implements Partitioner {
 
     }
 }
-*/
+
+

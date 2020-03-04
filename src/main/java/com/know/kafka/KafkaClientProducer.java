@@ -58,7 +58,7 @@ public class KafkaClientProducer extends Thread {
     }
 
     public static void main(String[] args) {
-        new KafkaClientProducer("topicChannle").start();
+        new KafkaClientProducer("java1").start();
     }
 
 }

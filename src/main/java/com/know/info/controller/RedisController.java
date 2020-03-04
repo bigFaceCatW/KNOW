@@ -3,6 +3,7 @@ package com.know.info.controller;
 
 import com.know.info.dto.UserDto;
 import com.know.info.service.ConsumersService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ public class RedisController {
      *
      */
     @GetMapping("/redis")
+    @ApiOperation("添加用户的接口")
     public List<UserDto> consumersTest(){
         UserDto user = new UserDto();
         user.setAge(13);

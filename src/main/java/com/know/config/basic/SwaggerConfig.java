@@ -50,9 +50,13 @@
 //    private ApiInfo apiInfo()
 //    {
 //        return new ApiInfoBuilder()
-//                .title(appName)
-//                .version(appVersion)
-//                .build();
+//        .title("应用检查平台接口文档")
+//        .description("应用检测平台接口文档")
+//        .termsOfServiceUrl("http://localhost:8000/swagger-ui.html")
+//        .contact("科大国创-网管产品部")
+//        .version("1.0")
+//        .build();
+
 //    }
 //
 //

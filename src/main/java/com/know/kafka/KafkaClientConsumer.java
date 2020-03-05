@@ -59,7 +59,7 @@ public class KafkaClientConsumer extends Thread {
 
 
     public static void main(String[] args) {
-        new KafkaClientConsumer("java1").start();
+        new KafkaClientConsumer("javaShow").start();
     }
 
 

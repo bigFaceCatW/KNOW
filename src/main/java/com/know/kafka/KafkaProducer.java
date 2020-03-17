@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import javax.annotation.Resource;
@@ -29,7 +28,7 @@ public class KafkaProducer {
 //    private String topic;
 
     //发送消息方法
-    @Scheduled(cron = "0/5 * * * * ?")
+//    @Scheduled(cron = "0/5 * * * * ?")
     public void send() {
              String message = UUID.randomUUID().toString();
         ListenableFuture<SendResult<Integer, String>> future= kafkaTemplate.send("api",1,message);

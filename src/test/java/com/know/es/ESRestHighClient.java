@@ -76,8 +76,6 @@ public class ESRestHighClient {
                 "      }," +
                 "      \"name\" : {" +
                 "        \"type\": \"text\"," +
-                "        \"analyzer\": \"ik_max_word\", " +
-                "        \"search_analyzer\": \"ik_smart\"," +
                 "        \"fields\": {" +
                 "          \"keyword\" : {\"ignore_above\" : 256, \"type\" : \"keyword\"}" +
                 "        }" +
@@ -99,7 +97,7 @@ public class ESRestHighClient {
                 "}";
 
         try {
-            service.createIndex("cat", settings, mappings);
+            service.createIndex("face", settings, mappings);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("创建索引失败");
@@ -152,15 +150,21 @@ public class ESRestHighClient {
 
     @Test
     public void matchSearch() throws IOException {
-        SearchResponse response =service.matchSearch("adress","魏国","cat");
+        SearchResponse response =service.matchSearch("name","赵","cat");
         SearchHits hits = response.getHits();
         SearchHit[] searchHits = hits.getHits();
         for (SearchHit hit : searchHits) {
             Map<String, Object> sourceAsMap = hit.getSourceAsMap();
             System.out.println(sourceAsMap.toString());
         }
-
     }
+
+    @Test
+    public void matchPhrase() throws IOException {
+        service.matchPhrase("name","赵","cat");
+    }
+
+
     @Test
     public void searchMultiMatch() throws IOException {
         SearchResponse response =service.searchMultiMatch("魏国","cat",0,10,"adress","name");
@@ -200,9 +204,20 @@ public class ESRestHighClient {
         }
 
     }
+    @Test
+    public void boolSearch() throws IOException {
+        service.boolSearch("name","赵子龙","cat");
+    }
 
+    @Test
+    public void searchScroll() throws IOException {
+        service.searchScroll("name","赵子龙","cat");
+    }
 
-
+    @Test
+    public void multiSearch() throws IOException {
+        service.multiSearch("name","赵子龙","cat");
+    }
 
 
 

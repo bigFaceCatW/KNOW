@@ -39,14 +39,12 @@ public class RedisController {
         user.setAge(13);
         user.setName("测试");
        boolean result= redisUtil.set("users",user);
-       System.out.println(result);
         UserDto userDto=null;
         try{
             userDto = (UserDto)redisUtil.get("users");
         }catch (Exception e){
             e.printStackTrace();
         }
-        System.out.println("我的名字叫"+userDto.getName()+",我今年"+userDto.getAge()+"岁了！");
 
         return consumersService.questList(userDto.getPage(),userDto.getPageNum());
     }
@@ -79,4 +77,16 @@ public class RedisController {
     public  long  addBatchUser(List<UserDto> userDtos){
          return consumersService.addBatchUser(userDtos);
      }
+
+
+
+
+
+    public static void main(String[] args) {
+
+
+    }
+
+
+
 }

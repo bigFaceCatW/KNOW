@@ -12,8 +12,7 @@ import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.*;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
@@ -24,12 +23,22 @@ import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.UpdateByQueryRequest;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptType;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
+import org.elasticsearch.search.aggregations.metrics.Avg;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
@@ -37,7 +46,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 //DeleteRequest GetRequest UpdateRequest 都是根据 id 操作文档
@@ -248,6 +259,163 @@ public class RestHighLevelClientService {
         return client.search(request, RequestOptions.DEFAULT);
     }
 
+    public void matchPhrase(String field ,String key,String ...indexNames) throws IOException {
+        List<Object> list = new ArrayList<>();
+        SearchRequest request = new SearchRequest(indexNames);
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        builder.query(QueryBuilders.matchPhraseQuery("name", "赵子龙"));
+        request.source(builder);
+        SearchResponse response = client.search(request, RequestOptions.DEFAULT);
+       SearchHit[] searchHits =  response.getHits().getHits();
+       for(SearchHit  hit:searchHits){
+           Map<String, Object> map = hit.getSourceAsMap();
+           list.add(map);
+       }
+        System.out.println(JSON.toJSONString(list));
+    }
+
+
+
+    public void boolSearch(String field ,String name ,String ... indexNames) throws IOException {
+        List<Map<String, Object>> list = new ArrayList<>();
+        SearchRequest request = new SearchRequest(indexNames);
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+
+        String[] fields = { "name", "create", "adress", "age" };// 指定返回的字段
+        builder.fetchSource(fields, null);
+        builder.from(0);   //从0开始
+        builder.size(15);  //查询15行
+        builder.sort("age", SortOrder.DESC); //倒叙排列
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();//创建bool
+        QueryBuilder queryBuilder1 = QueryBuilders.rangeQuery("age").gte(27).lte(30);
+        boolQueryBuilder.filter(queryBuilder1);
+//                QueryBuilders.queryStringQuery("fieldValue").field("fieldName")
+//                .must(QueryBuilders.termsQuery("name", "张飞", "韩信"))//精确查询，不分词
+//               .must(QueryBuilders.matchQuery("name", ""))   //必须满足
+//                .must(QueryBuilders.rangeQuery("age").gte(27).lte(30))//或者范围查询
+//                .should(QueryBuilders.wildcardQuery("name", "*" + "周" + "*")) //或者通配符查询
+        builder.query(boolQueryBuilder);  //封装bool类
+
+//============================嵌套查询==============================================
+        TermsAggregationBuilder aggregation= AggregationBuilders.terms("group_age").field("age");//求和
+        aggregation.subAggregation(AggregationBuilders.avg("age_avg")
+                .field("age"));
+        builder.aggregation(aggregation);
+        request.source(builder);
+//        聚合
+//        AggregationBuilder aggregation = AggregationBuilders.count("count_uid").field("uid");//统计字段数量
+//        AggregationBuilders.cardinality("age");
+//        builder.aggregation(AggregationBuilders.dateHistogram("create_sort").field("createTime")); //以时间间隔分组
+//        builder.aggregation(AggregationBuilders.sum("age_sum").field("age"));//求和//时间分组
+//        builder.aggregation(AggregationBuilders.terms("group_name").field("name"));//分组
+//        builder.aggregation(AggregationBuilders.avg("age_avg").field("age"))
+        SearchResponse searchResponse= client.search(request, RequestOptions.DEFAULT);
+        SearchHit[] hits = searchResponse.getHits().getHits();
+        for (SearchHit hit : hits) {
+            Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+            list.add(sourceAsMap);
+        }
+        System.out.println(JSON.toJSONString(list));
+
+//获取分组
+        Aggregations aggregations = searchResponse.getAggregations();
+//        aggs.put("group_time", aggregations.get("group_time")); //获取度量值
+        Terms terms =aggregations.get("group_age");
+       Terms.Bucket bucket= terms.getBucketByKey("27"); //key值，时间为keyasString值
+
+        Avg averageAge = bucket.getAggregations().get("age_avg");
+        Double value = averageAge.getValue();
+
+     System.out.println(JSON.toJSONString(bucket));
+       List<Aggregation> aggregationsList = aggregations.asList();
+//			for(Aggregation agg : aggregationsList){
+//				String name = agg.getName();
+//				String type = agg.getType();
+//        ParsedValueCount valueCount =  (ParsedValueCount) agg;
+//        result = valueCount.getValueAsString();
+
+    }
+
+
+//scroll查询
+    public void  searchScroll(String field ,String name ,String ... indexNames) throws IOException {
+        List<Map<String, Object>> list = new ArrayList<>();
+        List<Map<String, Object>> list1 = new ArrayList<>();
+        SearchRequest request = new SearchRequest(indexNames);
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+
+        String[] fields = { "name", "create", "adress", "age" };
+        builder.fetchSource(fields, null);
+        builder.from(0);   //从0开始
+        builder.size(15);  //查询15行
+        builder.sort("age", SortOrder.DESC); //倒叙排列
+        builder.query(QueryBuilders.matchAllQuery());
+        request.source(builder);
+        request.scroll(TimeValue.timeValueMinutes(1L));
+        SearchResponse response = client.search(request, RequestOptions.DEFAULT);
+        String str = response.getScrollId();
+        SearchHit[] hits = response.getHits().getHits();
+        for (SearchHit hit : hits) {
+            Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+            list.add(sourceAsMap);
+        }
+        System.out.println(str);
+        System.out.println(JSON.toJSONString(list));
+
+//        查询到scroll后根据id来查，性能更高
+        SearchScrollRequest scrollRequest = new SearchScrollRequest(str);
+        scrollRequest.scroll(TimeValue.timeValueSeconds(30));
+        SearchResponse scrollResponse =  client.scroll(scrollRequest, RequestOptions.DEFAULT);
+        System.out.println("第二次scrollId:"+scrollResponse.getScrollId());
+        SearchHit[] hitTow = scrollResponse.getHits().getHits();
+        for (SearchHit hit : hitTow) {
+            Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+            list1.add(sourceAsMap);
+        }
+        System.out.println(JSON.toJSONString(list1));
+    }
+
+
+// multiSearch
+public void multiSearch(String field ,String name ,String ... indexNames) throws IOException {
+
+        SearchRequest request = new SearchRequest(indexNames);
+    //构建批量查询
+    MultiSearchRequest multiRequest = new MultiSearchRequest();
+
+    //创建查询条件
+
+    SearchSourceBuilder builder = new SearchSourceBuilder();
+    builder.query(QueryBuilders.termQuery("name", "橘右京"));
+    request.source(builder);
+    multiRequest.add(request);
+
+    SearchRequest request1 = new SearchRequest(indexNames);
+    SearchSourceBuilder builder1 = new SearchSourceBuilder();
+    builder1.query(QueryBuilders.termQuery("name", "赵子龙"));
+    request1.source(builder1);
+    multiRequest.add(request1);
+
+    //请求
+    MultiSearchResponse response = client.msearch(multiRequest, RequestOptions.DEFAULT);
+    MultiSearchResponse.Item[] items = response.getResponses();
+
+    for (MultiSearchResponse.Item item : items) {
+        SearchHits hits = item.getResponse().getHits();
+        //无查询结果
+        if (hits.getTotalHits().value > 0) {
+            SearchHit[] hitList = hits.getHits();
+            for (SearchHit searchHit : hitList) {
+                System.out.println(searchHit.getSourceAsString());
+            }
+        }
+    }
+}
+
+
+
+
+
     public SearchResponse SearchLike(String field ,String key ,String ... indexNames) throws IOException {
         SearchRequest request = new SearchRequest(indexNames);
         SearchSourceBuilder builder = new SearchSourceBuilder();
@@ -255,9 +423,6 @@ public class RestHighLevelClientService {
         request.source(builder);
         return client.search(request, RequestOptions.DEFAULT);
     }
-
-
-
 
 
 
@@ -278,7 +443,9 @@ public class RestHighLevelClientService {
             }
         } else {
             for (Object s : array) {
-                request.add(new IndexRequest(indexName).id(JSONObject.parseObject(s.toString()).getString("age")).source(JSONObject.toJSONString(s), XContentType.JSON));
+                request.add(new IndexRequest(indexName)
+                        .id(JSONObject.parseObject(s.toString()).getString("age"))
+                        .source(JSONObject.toJSONString(s), XContentType.JSON));
             }
         }
         return client.bulk(request, RequestOptions.DEFAULT);

@@ -13,7 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @author lx.ci
  *
  *  配合使用的JS前台加密方法，保证前后台使用的key和iv一致
- *   <script src="./js/CryptoJS-v3.1.2/rollups/aes.js" type="text/javascript"></script>
+ *   <script src="./static/CryptoJS-v3.1.2/rollups/aes.static" type="text/javascript"></script>
  *   
  *	function Encrypt(data,key,iv){  
 			var key  = CryptoJS.enc.Utf8.parse(key);  

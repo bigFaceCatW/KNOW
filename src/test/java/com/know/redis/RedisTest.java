@@ -23,7 +23,7 @@ public class RedisTest {
     @Resource
     private PageObj pageObj;
 
-    //    ================================================字符串=================================================
+    //    ================================================String=================================================
     @Test
     public void set() {
         redisUtil.set("key", "2020");
@@ -40,7 +40,7 @@ public class RedisTest {
         redisUtil.expire("key", 10);
     }
 
-    //    ====================================================map========================================
+    //    ====================================================Map========================================
     @Test
     public void hashMapSet() {
         //-----添加数据----------
@@ -53,7 +53,7 @@ public class RedisTest {
 
     @Test
     public void hashMapGet() {
-        //-----添加数据----------
+        //-----获取数据----------
         Map<Object, Object> map = redisUtil.hmget("map");
         String str = JSON.toJSONString(map);
         System.out.println(str);
@@ -61,7 +61,7 @@ public class RedisTest {
 
     @Test
     public void hashSet() {
-        //-----添加数据----------
+        //-----修改数据----------
         Map<String, Object> mapTow = new HashMap<>();
       mapTow.put("address", "合肥");
         boolean bool= redisUtil.hset("map","address",1);
@@ -71,7 +71,7 @@ public class RedisTest {
     @Test
     public void hashGet() {
         //-----添加数据----------
-       Object map =  redisUtil.hget("map","address");
+       Object map =  redisUtil.hget("map","age");
         String str = JSON.toJSONString(map);
         System.out.println(str);
     }
@@ -91,7 +91,7 @@ public class RedisTest {
 
     @Test
     public void setSet() {
-        redisUtil.sSet("test", 1,"ceshi");
+        redisUtil.sSet("test", 1,"ceshi",2,3,4,5,6,7,8,9);
     }
 
     @Test

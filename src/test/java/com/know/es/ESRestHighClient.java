@@ -22,36 +22,6 @@ public class ESRestHighClient {
     @Autowired
     RestHighLevelClientService service;
 
-//    @Before
-//    public void testRestHighClinet() {
-//
-//        RestClientBuilder restClientBuilder = RestClient.builder(
-//                new HttpHost("localhost", 9200, "http")
-//        );
-//
-//        Header[] defaultHeaders = new Header[]{
-//                new BasicHeader("Accept", "*/*"),
-//                new BasicHeader("Charset", "UTF-8"),
-//                new BasicHeader("E_TOKEN", "esestokentoken")
-//        };
-//        restClientBuilder.setDefaultHeaders(defaultHeaders);
-//
-//        restClientBuilder.setFailureListener(new RestClient.FailureListener(){
-//            @Override
-//            public void onFailure(Node node) {
-//                System.out.println("监听失败");
-//            }
-//        });
-//
-//        restClientBuilder.setRequestConfigCallback(builder ->
-//                builder.setConnectTimeout(5000).setSocketTimeout(15000));
-//
-//        RestHighLevelClient highClient = new RestHighLevelClient(restClientBuilder);
-//
-//        restHighLevelClient = highClient;
-//        service = new RestHighLevelClientService();
-//    }
-
 //https://www.cnblogs.com/chenmc/p/9516100.html 各参数解释
 
 

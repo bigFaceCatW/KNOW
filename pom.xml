@@ -111,7 +111,7 @@
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
-        </dependency>
+      </dependency>
 
         <!--json依赖-->
         <dependency>
@@ -242,7 +242,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <version>2.1.0.M4</version>
         </dependency>
 
     </dependencies>

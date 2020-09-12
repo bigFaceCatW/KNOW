@@ -1,13 +1,8 @@
 package com.know.kafak;
 
-import com.know.config.dto.PageObj;
-import com.know.kafka.KafkaProducer;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.annotation.Resource;
 
 /**
  * @Author: Facecat
@@ -18,7 +13,7 @@ import javax.annotation.Resource;
 @SpringBootTest
 public class KafkaTest {
 
-    @Resource
+   /* @Resource
     private KafkaProducer kafkaProducer;
     @Resource
     private PageObj pageObj;
@@ -28,5 +23,5 @@ public class KafkaTest {
         String message = "Hello World---";
 
 //        System.in.read();
-    }
+    }*/
 }

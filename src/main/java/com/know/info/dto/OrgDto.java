@@ -2,6 +2,7 @@ package com.know.info.dto;
 
 import com.alibaba.fastjson.JSON;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +11,7 @@ import java.util.Optional;
  * @Author: Facecat
  * @Date: 2020/2/23 9:27
  */
-public class OrgDto {
+public class OrgDto implements Serializable {
 
     private long orgId;
     private String orgCode;

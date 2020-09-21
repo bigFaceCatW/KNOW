@@ -13,7 +13,7 @@ import java.util.Optional;
  * @Author: Facecat
  * @Date: 2020/2/29 22:35
  */
-
+//基于注解的方式
 @Component
 @Slf4j
 public class KafkaConsumer {

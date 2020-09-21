@@ -34,7 +34,7 @@ public class KafkaClientProducer extends Thread {
 //        properties.put(ProducerConfig.LINGER_MS_CONFIG,234324); //间隔发送次数
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class.getName()); //配置key的序列化
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        properties.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, "com.know.kafka.Partition"); //自定义分区策略
+        properties.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, "com.know.kafka.Partition"); //自定义分区策略与parttion类对应
         producer = new KafkaProducer<Integer,String>(properties);
         //batch.size:同一个分区会缓存，再批量发送
         this.topic=topic;

@@ -17,7 +17,7 @@ import java.util.UUID;
  * @Author: Facecat
  * @Date: 2020/2/29 19:39
  */
-
+//基于注解的方式
 @Configuration
 @Slf4j
 @EnableScheduling

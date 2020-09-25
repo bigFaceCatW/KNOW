@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.TopicPartition;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -14,7 +13,7 @@ import java.util.Optional;
  * @Date: 2020/2/29 22:35
  */
 //基于注解的方式
-@Component
+//@Component
 @Slf4j
 public class KafkaConsumer {
     @KafkaListener(topics = {"api"})

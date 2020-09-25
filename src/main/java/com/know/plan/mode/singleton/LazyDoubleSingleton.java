@@ -4,7 +4,7 @@ package com.know.plan.mode.singleton;
  * @Author: Facecat
  * @Date: 2020/9/24 22:08
  */
-//双重检查
+//双重检查锁
 
 public class LazyDoubleSingleton {
 //    缺点：加上volatile防止指令重排序

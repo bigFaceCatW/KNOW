@@ -13,7 +13,10 @@ public class ExectorThread implements  Runnable {
     public void run() {
 
 //        LazySingleton lazySingleton = LazySingleton.getInstance();
-        LazyDoubleSingleton lazySingleton = LazyDoubleSingleton.getInstance();
+
+//        LazyDoubleSingleton lazySingleton = LazyDoubleSingleton.getInstance();
+
+        ThreadSingleton lazySingleton = ThreadSingleton.getInstance();
         System.out.println(Thread.currentThread().getName()+">>>"+lazySingleton);
 
     }

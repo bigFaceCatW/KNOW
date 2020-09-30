@@ -268,5 +268,24 @@
         </plugins>
     </build>
 
+<!--    <profiles>-->
+<!--        &lt;!&ndash; dev开发环境配置,prod为生产环境配置 &ndash;&gt;-->
+<!--        <profile>-->
+<!--            <id>dev</id>-->
+<!--            <properties>-->
+<!--                <profileActive>dev</profileActive>-->
+<!--            </properties>-->
+<!--            <activation>-->
+<!--                <activeByDefault>true</activeByDefault>-->
+<!--            </activation>-->
+<!--        </profile>-->
+<!--        <profile>-->
+<!--            <id>prod</id>-->
+<!--            <properties>-->
+<!--                <profileActive>prod</profileActive>-->
+<!--            </properties>-->
+<!--        </profile>-->
+<!--    </profiles>-->
+
 
 </project>

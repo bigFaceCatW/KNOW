@@ -13,7 +13,9 @@ public class ProxyImage implements Image {
     }
     @Override
     public void display() {
-        intanceImage = new IntanceImage(this.fileName);
+        if(intanceImage==null){
+            intanceImage = new IntanceImage(this.fileName);
+        }
         intanceImage.display();
     }
 }

@@ -9,7 +9,6 @@ import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -50,7 +49,8 @@ public class KafkaClientConsumer extends Thread {
     @Override
     public void  run(){
         while (true){
-            ConsumerRecords<Integer,String> consumerRecord = kafkaConsumer.poll(Duration.ofMillis(1000));
+//            ConsumerRecords<Integer,String> consumerRecord = kafkaConsumer.poll(Duration.ofMillis(1000));
+            ConsumerRecords<Integer,String> consumerRecord = kafkaConsumer.poll(1000);
             for(ConsumerRecord record:consumerRecord){
                 System.out.println(record.partition()+"->message 接收:"+record.value());
             }

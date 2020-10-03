@@ -3,8 +3,10 @@ package com.know.kafka;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.concurrent.ListenableFuture;
 
@@ -16,9 +18,9 @@ import java.util.UUID;
  * @Date: 2020/2/29 19:39
  */
 //基于注解的方式
-//@Configuration/
+@Configuration
 @Slf4j
-//@EnableScheduling
+@EnableScheduling
 public class KafkaProducer {
 
     @Resource

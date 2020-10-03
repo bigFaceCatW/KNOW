@@ -4,7 +4,7 @@ package com.know.kafka;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.annotation.TopicPartition;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
  * @Date: 2020/2/29 22:35
  */
 //基于注解的方式
-//@Component
+@Component
 @Slf4j
 public class KafkaConsumer {
     @KafkaListener(topics = {"api"})
@@ -42,15 +42,15 @@ public class KafkaConsumer {
 //       }
 //   }
 
-    @KafkaListener(id = "consumer1-2",groupId = "group2",
-            topicPartitions = {@TopicPartition(topic = "java1", partitions = {"1"})
-            })
-    public void consumerTwo1(ConsumerRecord record) {
-        Optional msg = Optional.ofNullable(record.value());
-        if (msg.isPresent()) {
-            log.info("consumer1-2接收到消息：" + record.value());
-        }
-    }
+//    @KafkaListener(id = "consumer1-2",groupId = "group2",
+//            topicPartitions = {@TopicPartition(topic = "java1", partitions = {"1"})
+//            })
+//    public void consumerTwo1(ConsumerRecord record) {
+//        Optional msg = Optional.ofNullable(record.value());
+//        if (msg.isPresent()) {
+//            log.info("consumer1-2接收到消息：" + record.value());
+//        }
+//    }
 
 
 

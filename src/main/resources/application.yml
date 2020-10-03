@@ -1,0 +1,22 @@
+spring:
+  kafka:
+    bootstrap-servers: 10.125.128.187:32035,10.125.128.119:32071,10.125.128.118:32059
+    #密码权限配置
+    properties:
+      security:
+        protocol: SASL_PLAINTEXT
+      sasl:
+        mechanism: SCRAM-SHA-256
+        jaas:
+          config: org.apache.kafka.common.security.scram.ScramLoginModule required username="kc-kafka-cluster-sui" password="i4W#N@BA";
+    #    生产者
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      retries: 2
+    #    消费者
+    consumer:
+      group-id: faceCat
+      auto-commit-interval:
+      enable-auto-commit: true
+      auto-offset-reset: earliest

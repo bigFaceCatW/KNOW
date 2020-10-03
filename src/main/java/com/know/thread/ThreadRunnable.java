@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @Author: Facecat
  * @Date: 2020/3/16 15:49
  */
-public class ThreadController implements Runnable {
+public class ThreadRunnable implements Runnable {
     @Override
     public void run() {
         for(int i=0; i<20; i++){
@@ -25,7 +25,7 @@ public class ThreadController implements Runnable {
     }
 
     public static void main(String[] args) {
-        ThreadController thread = new ThreadController();
+        ThreadRunnable thread = new ThreadRunnable();
         ThreadPoolExecutor pool = new ThreadPoolExecutor(5,10,2000,
                 TimeUnit.MICROSECONDS,
                 new LinkedBlockingDeque<>());

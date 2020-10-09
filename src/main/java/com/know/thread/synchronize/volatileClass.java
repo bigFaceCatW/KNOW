@@ -4,7 +4,9 @@ package com.know.thread.synchronize;
  * @Author: Facecat
  * @Date: 2020/3/22 9:54
  */
+//volatile关键字，保障多线程环境下保障可见性
 public class volatileClass {
+    //不加volatile线程会一直跑，不会停止
     public volatile static boolean stop = false;
 
     public static void main(String[] args) throws InterruptedException {

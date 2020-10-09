@@ -5,28 +5,32 @@ package com.know.thread.synchronize;
  * @Date: 2020/3/21 17:04
  */
 public class SynchronizedClass  {
-//作用范围（对象锁，类锁） 区别是否跨对象跨线程被保护
 
 
-    public  synchronized  void method(){
 
-    }
-
-    public  void method1(){
-        synchronized (this){ //当前调用这个方法的对象，对象级别
-
-        }
-    }
-
-    public  synchronized  static void method2(){
-
-    }
-
+    //    public  synchronized  static void method2(){
+//
+//    }
+    //静态方法、类对象 (类锁)
     public  void  method3(){
-        synchronized (SynchronizedClass.class){ //生命周期最大，类级别
+        synchronized (SynchronizedClass.class){
 
         }
     }
+
+    //当前调用这个方法的对象(实例锁)
+    public  void method1(){
+        synchronized (this){
+
+        }
+    }
+
+    public  synchronized  void method(){ //相当于synchronized(this)
+
+    }
+
+
+
 
     public static void main(String[] args) {
 

@@ -4,6 +4,7 @@ package com.know.plan.mode.proxy;
  * @Author: FaceCat
  * @Date: 2020/9/30 15:36
  */
+//代理类
 public class ProxyImage implements Image {
     private IntanceImage intanceImage;
     private String fileName;

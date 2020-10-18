@@ -1,45 +1,56 @@
 package com.know.thread;
 
-import com.alibaba.fastjson.JSON;
-
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import com.know.redis.RedisTool;
+import com.know.util.ContentUtil;
+import redis.clients.jedis.JedisCluster;
 
 /**
  * @Author: Facecat
  * @Date: 2020/3/16 15:49
  */
 public class ThreadRunnable implements Runnable {
-    @Override
-    public void run() {
-        for(int i=0; i<20; i++){
-            System.out.println(Thread.currentThread().getName()+":"+i);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+
+    private JedisCluster jedisCluster;
+    private String lockedValue;
+
+    public  ThreadRunnable(JedisCluster jedisCluster, String lockedValue){
+        this.jedisCluster=jedisCluster;
+        this.lockedValue=lockedValue;
     }
 
-    public static void main(String[] args) {
+    @Override
+    public void run() {
+        int s =0;
+        for(int i=0; i<20; i++){
+            System.out.println(Thread.currentThread().getName()+":"+s);
+            s++;
+//            try {
+//                Thread.sleep(10);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+        }
+
+        System.out.println(Thread.currentThread().getName()+"总和>>>"+s);
+        RedisTool.redisDelLock(jedisCluster,ContentUtil.REDIS_LOCK,lockedValue);
+    }
+
+    /*public static void main(String[] args) {
         ThreadRunnable thread = new ThreadRunnable();
-        ThreadPoolExecutor pool = new ThreadPoolExecutor(5,10,2000,
+        ThreadPoolExecutor pool = new ThreadPoolExecutor(100,2000,2000,
                 TimeUnit.MICROSECONDS,
                 new LinkedBlockingDeque<>());
         for(int i=0;i<5;i++){
             Future future =  pool.submit(thread);
             try{
                 Object object = future.get();
-                System.out.println(JSON.toJSONString(object));
+                System.out.println("futrue返回>>>"+JSON.toJSONString(object));
             }catch(Exception e){
                 e.printStackTrace();
             }
         }
         pool.shutdown();//关闭线程
 
-    }
+    }*/
 
 }

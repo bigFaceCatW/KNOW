@@ -16,7 +16,6 @@ public class IntanceImage implements Image {
     @Override
     public void display() {
         System.out.println("加载照片>>>"+this.fileName);
-
     }
 
     public void loadImg(){

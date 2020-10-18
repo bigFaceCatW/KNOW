@@ -9,6 +9,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
  * @Author: Facecat
  * @Date: 2020/2/21 17:33
  */
+//分布式锁
 public class ZkLock {
 
     public static void main(String[] args) {

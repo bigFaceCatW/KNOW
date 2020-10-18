@@ -27,7 +27,7 @@ public class KafkaClientProducer extends Thread {
 
     public  KafkaClientProducer(String topic){
         Properties properties = new Properties();
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,"10.190.3.172:5889,10.190.5.208:5889,10.190.5.209:5889");
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,servers);
         properties.put(ProducerConfig.CLIENT_ID_CONFIG, "producer-group"); //分组
         properties.put(ProducerConfig.ACKS_CONFIG, "-1");//0：不需要确认|1：获得leader确认即可返回|-1：需要所有节点确认
 //        properties.put(ProducerConfig.BATCH_SIZE_CONFIG,123); //设置达到多少就批量发送

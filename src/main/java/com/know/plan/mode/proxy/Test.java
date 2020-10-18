@@ -4,6 +4,7 @@ package com.know.plan.mode.proxy;
  * @Author: FaceCat
  * @Date: 2020/9/30 15:46
  */
+//代理模式
 public class Test
 {
     public static void main(String [] args){

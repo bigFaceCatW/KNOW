@@ -4,7 +4,7 @@ package com.know.plan.mode.adpater;
  * @Author: Facecat
  * @Date: 2020/9/28 0:22
  */
-//
+//适配器模式
 public class Test {
     public static void main(String[] args) {
 //       类适配器

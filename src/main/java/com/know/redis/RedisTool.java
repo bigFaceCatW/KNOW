@@ -124,7 +124,7 @@ public class RedisTool{
         redisScript.setResultType(Long.class);
         redisScript.setScriptText(script);        //执行脚本
         Long exeResult = stringRedisTemplate.execute(redisScript, Arrays.asList(lockedKey), lockedValue);
-        if(RELEASE_SUCCESS==exeResult){
+        if(RELEASE_SUCCESS.equals(exeResult)){
             return true;
         }else {
             return false;

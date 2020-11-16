@@ -33,7 +33,7 @@ public class GetLoginInfoService {
 		Map<String, String> loginMap = new HashMap<>();
 		try {
 			loginInfo = stringRedisTemplate.opsForValue().get(jsessionId);
-			if(CommonUtil.hasValue(loginInfo)) {
+			if(CommonUtil.isValue(loginInfo)) {
 				//判断loginInfo是否为空  为空不去转化为map
 				loginMap = JacksonUtil.json2Stringmap(loginInfo.substring(1, loginInfo.length()-1));
 			}
@@ -54,7 +54,7 @@ public class GetLoginInfoService {
 		Map<String , String > loginMap = null;
 		try {
 			loginInfo = stringRedisTemplate.opsForValue().get(jsessionId);
-			if(CommonUtil.hasValue(loginInfo)) {
+			if(CommonUtil.isValue(loginInfo)) {
 				//判断loginInfo是否为空  为空不去转化为map
 				loginMap = JacksonUtil.json2Stringmap(loginInfo.substring(1, loginInfo.length()-1));		
 			}else {

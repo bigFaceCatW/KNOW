@@ -22,7 +22,7 @@ public class CommonUtil {
      * @param value
      * @return
      */
-    public static final boolean hasValue(String value) {
+    public static final boolean isValue(String value) {
     	return value != null && value.trim().length() > 0;
     }
     

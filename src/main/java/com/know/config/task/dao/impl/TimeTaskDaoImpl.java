@@ -176,7 +176,7 @@ public class TimeTaskDaoImpl extends JdbcDaoSupport4mysql implements TimeTaskDao
 		if(timer.getNodeId()!=null && timer.getNodeId()>-1){//nodeId
 			sql+=" AND t2.APP_NODE_ID="+timer.getNodeId();
 		}
-		if(CommonUtil.hasValue(timer.getTimerName())){//timeName
+		if(CommonUtil.isValue(timer.getTimerName())){//timeName
 			sql+=" AND t1.TIMER_NAME LIKE '%"+timer.getTimerName()+"%' ";
 		}
 		if( timer.getEnAble()!=null && timer.getEnAble()>-1){//是否启用：定时器和任务都为启用，则为启用，否则为停用状态
@@ -266,13 +266,13 @@ public class TimeTaskDaoImpl extends JdbcDaoSupport4mysql implements TimeTaskDao
 //				+ " FROM SYS_TIMER t1,SYS_NODE t2,SYS_JOB t3 "
 //				+ " WHERE t1.DEL_FLAG=0 AND t1.JOB_ID=t3.JOB_ID AND t1.NODE_ID=t2.APP_NODE_ID AND t1.SHARDING_ID= ?  ";
 //
-//		if(CommonUtil.hasValue(timer.getJob())){//job
+//		if(CommonUtil.isValue(timer.getJob())){//job
 //			sql+=" AND t3.JOB_NAME like '%"+timer.getJob() +"%' ";
 //		}
-//		if(CommonUtil.hasValue(timer.getNode())){//node
+//		if(CommonUtil.isValue(timer.getNode())){//node
 //			sql+=" AND t2.NODE_NAME LIKE '%"+timer.getNode()+"%' ";
 //		}
-//		if(CommonUtil.hasValue(timer.getTimerName())){//timeName
+//		if(CommonUtil.isValue(timer.getTimerName())){//timeName
 //			sql+=" AND t1.TIMER_NAME LIKE '%"+timer.getTimerName()+"%' ";
 //		}
 //		if( timer.getEnAble()!=null && timer.getEnAble()>-1){//是否启用：定时器和任务都为启用，则为启用，否则为停用状态
@@ -330,13 +330,13 @@ public class TimeTaskDaoImpl extends JdbcDaoSupport4mysql implements TimeTaskDao
 				+ " FROM sys_timer t1 "
 				+ " WHERE t1.DEL_FLAG=0 AND t1.SHARDING_ID=? AND t1.TENANT_ID=? ";
 	
-		if (CommonUtil.hasValue(sysTimerDto.getTimerName())) {
+		if (CommonUtil.isValue(sysTimerDto.getTimerName())) {
 			sql += " AND t1.TIMER_NAME LIKE ? ";
 			list.add("%" +sysTimerDto.getTimerName()+"%");
 		}
 
 
-		if (CommonUtil.hasValue(sysTimerDto.getNode())) {
+		if (CommonUtil.isValue(sysTimerDto.getNode())) {
 			sql += " AND t1.NODE LIKE ? ";
 			list.add("%" +sysTimerDto.getNode()+"%");
 		}

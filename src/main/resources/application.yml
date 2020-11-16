@@ -1,22 +1,53 @@
-spring:
-  kafka:
-    bootstrap-servers: 10.125.128.187:32035,10.125.128.119:32071,10.125.128.118:32059
-    #密码权限配置
-    properties:
-      security:
-        protocol: SASL_PLAINTEXT
-      sasl:
-        mechanism: SCRAM-SHA-256
-        jaas:
-          config: org.apache.kafka.common.security.scram.ScramLoginModule required username="kc-kafka-cluster-sui" password="i4W#N@BA";
-    #    生产者
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      retries: 2
-    #    消费者
-    consumer:
-      group-id: faceCat
-      auto-commit-interval:
-      enable-auto-commit: true
-      auto-offset-reset: earliest
+#spring:
+#  kafka:
+#    bootstrap-servers: 10.125.128.187:32035,10.125.128.119:32071,10.125.128.118:32059
+#    #密码权限配置
+#    properties:
+#      security:
+#        protocol: SASL_PLAINTEXT
+#      sasl:
+#        mechanism: SCRAM-SHA-256
+#        jaas:
+#          config: org.apache.kafka.common.security.scram.ScramLoginModule required username="kc-kafka-cluster-sui" password="i4W#N@BA";
+#    #    生产者
+#    producer:
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      retries: 2
+#    #    消费者
+#    consumer:
+#      group-id: faceCat
+#      auto-commit-interval:
+#      enable-auto-commit: true
+#      auto-offset-reset: earliest
+#---合力所用到的kafka初始化
+#kafka:
+#  producer:
+#    topic: pcc-accept # kafka
+#    servers: 10.125.128.188:32005,10.125.128.187:32005,10.125.128.189:32005
+#    retries: 0
+#    userName: newcsdts
+#    password: RR9zkn$drH
+#    batch:
+#      size: 4096
+#    linger: 1
+#    buffer:
+#      memory: 40960
+#---
+#elasticsearch:
+#  pool: 5
+#  userName: elastic
+#  password: xkfes01#holly
+#  cluster:
+#    name: holly-es
+#    nodes: 10.125.128.187:10042,10.125.128.188:10042,10.125.128.189:10042
+#  timer:
+#    fixedRate: 1000
+#    queue:
+#      size: 5000
+#      timeout: 500
+#export:
+#  timer:
+#    fixedRate: 10000
+#  thread:
+#    pool: 5

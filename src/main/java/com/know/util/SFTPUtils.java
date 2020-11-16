@@ -100,7 +100,7 @@
 //        	String [] dirArr = dir.split("/");
 //        	for(String tmpDir:dirArr) {
 //        		try {
-//        			if(CommonUtil.hasValue(tmpDir)){
+//        			if(CommonUtil.isValue(tmpDir)){
 //        				sftp.cd(tmpDir);
 //        			}
 //        		}catch(SftpException e) {

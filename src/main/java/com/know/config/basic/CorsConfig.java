@@ -22,7 +22,7 @@ public class CorsConfig {
         private String corsIps;
         private CorsConfiguration buildConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        if(CommonUtil.hasValue(corsIps)) {
+        if(CommonUtil.isValue(corsIps)) {
             String[] ips = corsIps.split(",");
             for(String ip : ips) {
                 System.out.println(ip);

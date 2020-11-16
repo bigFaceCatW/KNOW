@@ -141,7 +141,7 @@ public class JdbcDaoSupport4mysql{
 		StringBuffer sb1 = new StringBuffer();
 		StringBuffer sb11 = new StringBuffer();
 		int startIndex = (pageObj.getPage()-1) * pageObj.getRows();
-		if(CommonUtil.hasValue(type)&&"1".equals(type)){
+		if(CommonUtil.isValue(type)&&"1".equals(type)){
 			String[] split = sql.split("GROUP BY");
 			sql=split[0];
 		}

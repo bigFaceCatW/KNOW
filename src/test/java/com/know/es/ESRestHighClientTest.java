@@ -1,10 +1,17 @@
 package com.know.es;
 
 import com.know.es.config.RestHighLevelClientService;
+import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +23,15 @@ import java.util.Map;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class ESRestHighClient {
+public class ESRestHighClientTest {
 
 
     @Autowired
     RestHighLevelClientService service;
+
+    @Autowired
+    private RestHighLevelClient client;
+
 
 //https://www.cnblogs.com/chenmc/p/9516100.html 各参数解释
 
@@ -149,7 +160,7 @@ public class ESRestHighClient {
 
     @Test
     public void SearchLike() throws IOException {
-        SearchResponse response = service.SearchLike("蜀", "adress", "cat");
+        SearchResponse response = service.SearchLike("西域", "address", "cat");
         SearchHits hits = response.getHits();
         SearchHit[] searchHits = hits.getHits();
         for (SearchHit hit : searchHits) {
@@ -158,10 +169,6 @@ public class ESRestHighClient {
         }
 
     }
-
-
-
-
 
     @Test
     public void teamsSearch() throws IOException {
@@ -176,7 +183,7 @@ public class ESRestHighClient {
     }
     @Test
     public void boolSearch() throws IOException {
-        service.boolSearch("name","赵子龙","cat");
+        service.boolSearch("name","王文婷","cat");
     }
 
     @Test
@@ -190,6 +197,91 @@ public class ESRestHighClient {
     }
 
 
+     @Test //用于组合查询
+     public  void boolQuery() throws IOException{
+         SearchRequest request = new SearchRequest("cat");
+         SearchSourceBuilder builder = new SearchSourceBuilder();
+         BoolQueryBuilder bool = QueryBuilders.boolQuery();
+//         builder.fetchSource(new String[]{"english","name","age","createTime"}, new String[]{});//设置源字段过虑,第一个参数结果集包括哪些字段，第二个参数表示结果集不包括哪些字段
+//1.查询所有数据
+//         builder.query(QueryBuilders.matchAllQuery());
+//2.精确查询 可传入数组(对多结构好像不行)
+//         String[] strings = new String[]{"王文婷","韩风"};
+//         bool.filter(QueryBuilders.termsQuery("name.keyword",strings)); //如果类型不是keyword，则需要写成name.keyword
+//         builder.query(bool);
+//3. 全文检索
+//         (1):模糊查询：matchPhrase(like模糊查询)
+//         ①.fuzzyQuery
+//         builder.query(QueryBuilders.fuzzyQuery("name", "三").fuzziness(Fuzziness.AUTO));
+//         ②.wildcardQuery（通配符查询）should满足一个就行
+//         BoolQueryBuilder likeFliter = QueryBuilders.boolQuery();
+//         likeFliter.should(QueryBuilders.wildcardQuery("address", "*国"));
+//         builder.query(likeFliter);
+
+//         (2):分词查询
+//         builder.query(QueryBuilders.multiMatchQuery("国信","name","adress","pro"));
+//         (3)范围查询-嵌入布尔
+//         ①
+//         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+//         QueryBuilder queryBuilder1 = QueryBuilders.rangeQuery("age").gte(27).lte(30);
+//         boolQueryBuilder.filter(queryBuilder1);
+//         builder.query(boolQueryBuilder);
+//         ②时间区间、数字查询
+//         BoolQueryBuilder rangeBuilder = QueryBuilders.boolQuery();
+//         boolQueryBuilder.filter(QueryBuilders.rangeQuery("age")
+//                 .format("yyyy-MM-dd HH:mm:ss") //数字可以去掉这个格式
+//                 .from("2020-12-12:09:00:00")
+//                 .to("2020-12-12:09:00:00")
+//                 .includeLower(true)//true包含下界<=，false 不包含下界<
+//                 .includeUpper(true)
+//         );
+//         builder.query(rangeBuilder);
+//         (4)精确关键词匹配：matchPhrase
+//         BoolQueryBuilder phraseBool = QueryBuilders.boolQuery();
+//         phraseBool.must(QueryBuilders.matchPhraseQuery("name", "妲己"));
+//         bool.filter(phraseBool);
+//         builder.query(bool);
+
+
+//4.布尔查询：可以包含term、match、filter
+//         (1)must、should、
+         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+         boolQueryBuilder.must( QueryBuilders.multiMatchQuery("韩妲","name","englist"));
+         boolQueryBuilder.must(QueryBuilders.matchQuery("address", "韩"));
+         bool.filter(boolQueryBuilder);
+         builder.query(bool);
+//         (2)mustNot
+//         BoolQueryBuilder notInFilter = QueryBuilders.boolQuery();
+//         notInFilter.mustNot(QueryBuilders.termQuery("name","韩信"));
+//         bool.filter(notInFilter);
+
+
+//分页
+         builder.from(0);
+         builder.size(30);
+//         builder.sort("age", SortOrder.fromString("desc")); //ase
+
+         request.source(builder);
+//         返回数据
+         SearchResponse searchResponse = client.search(request, RequestOptions.DEFAULT);
+         SearchHits searchHits = searchResponse.getHits();
+//         获取总记录：默认返回10条
+         TotalHits total = searchHits.getTotalHits();
+         System.out.println("cat返回条数>>>"+total.value);
+//         获取数据:
+         SearchHit[] hits=searchHits.getHits();
+         for (SearchHit hit:hits){
+             String id = hit.getId();
+             Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+             System.out.println(sourceAsMap.toString());
+         }
+
+
+
+
+
+
+    }
 
 
 
@@ -217,6 +309,9 @@ public class ESRestHighClient {
                 "]";
         service.importAll("cat", false, bulkVal);
     }
+
+
+
 
 
 

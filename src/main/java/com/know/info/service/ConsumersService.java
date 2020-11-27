@@ -2,12 +2,14 @@ package com.know.info.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.know.info.dto.SysUserDto;
 import com.know.info.mapper.UserMapper;
 import com.know.info.dto.UserDto;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: BigFacecat
@@ -19,15 +21,15 @@ public class ConsumersService {
     @Resource
     private UserMapper userMapper;
 
-    public List<UserDto> questList(int page,int pageNum){
+    public List<SysUserDto> questList(int page,int pageNum){
         //分页查询
         PageHelper.startPage(page,pageNum);
-        UserDto userDto = new UserDto();
-        List<UserDto> userList = userMapper.questUserList(userDto);
+        SysUserDto userDto = new SysUserDto();
+        List<SysUserDto> userList = userMapper.questSysUserList(userDto);
         //得到分页的结果对象
-        PageInfo<UserDto> userPageInfo = new PageInfo<>(userList);
+        PageInfo<SysUserDto> userPageInfo = new PageInfo<>(userList);
         //得到分页中的UserDto条目对象
-        List<UserDto> pageList = userPageInfo.getList();
+        List<SysUserDto> pageList = userPageInfo.getList();
         //将结果存入map进行传送
        return pageList;
     }
@@ -49,8 +51,13 @@ public class ConsumersService {
 
     }
 
-    public List<UserDto> queryDtoList(UserDto userDto) {
-        List<UserDto> list = userMapper.questUserList(userDto);
+    public List<SysUserDto> queryDtoList(SysUserDto userDto) {
+        List<SysUserDto> list = userMapper.questSysUserList(userDto);
+        return list;
+    }
+
+    public List<SysUserDto> queryDtoListMap(Map<String, Object> map) {
+        List<SysUserDto> list = userMapper.questSysUserListMap(map);
         return list;
     }
 }

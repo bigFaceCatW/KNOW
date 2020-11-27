@@ -3,7 +3,7 @@
 <mapper namespace="com.know.info.mapper.OrderMapper">
 
     <!--DATE_FORMAT(b.CREATE_TIME, '%Y-%m-%d') AS E_DATE-->
-    <select id="queryListMapper" resultType="UserFamilyDto" >
+    <select id="queryListMapper" resultType="com.know.info.dto.UserFamilyDto" >
         SELECT id, value,name,DATE_FORMAT(dates, '%Y-%m-%d') AS dates
         FROM order_from
     </select>

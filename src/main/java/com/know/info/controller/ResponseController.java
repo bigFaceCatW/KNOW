@@ -1,12 +1,14 @@
 package com.know.info.controller;
 
-import com.know.info.service.ResponseService;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.know.info.dto.SysUserDto;
+import com.know.info.service.ConsumersService;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,14 +19,36 @@ import java.util.Map;
 @RequestMapping("/request")
 public class ResponseController {
 
-    @Resource
-    private ResponseService responseService;
+@Resource
+private ConsumersService consumersService;
 
-    @GetMapping("/getData")
-    public Map<String,Object> createData(){
+    @PostMapping("/getDto")
+    public Map<String,Object> getDto(SysUserDto userDtoParam){
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("products", responseService.queryListService());
+        SysUserDto userDto = userDtoParam;
+        Map<String, Object> mapParam = new HashMap<>();
+        mapParam.put("userName", "ad");
+//        List<SysUserDto> sysUserDtoList=consumersService.queryDtoList(userDto);
+        List<SysUserDto> sysUserDtoList=consumersService.queryDtoListMap(mapParam);
+        for(SysUserDto dto:sysUserDtoList){
+           System.out.println("实体类出参>>>"+dto.toString());
+        }
+
         return map;
 
     }
+    @PostMapping("/getMap")
+    public Map<String,Object> getMap(Map<String,Object> userDtoParam){
+        Map<String, Object> map = userDtoParam;
+        return map;
+
+    }
+
+    @PostMapping("/getDtoOrString")
+    public Map<String,Object> getDtoOrString(SysUserDto userDtoParam,String id){
+        Map<String, Object> map = new HashMap<String, Object>();
+        return map;
+
+    }
+
 }

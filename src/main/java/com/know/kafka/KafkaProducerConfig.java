@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Kafka 初始化kafka，使用直接使用KafkaTemplate发送与接收
+ * Kafka 初始化kafka，使用直接使用KafkaTemplate发送与接收-合力
  *
  */
 //@Configuration

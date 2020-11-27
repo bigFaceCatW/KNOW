@@ -1,26 +1,101 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.know.info.mapper.UserMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.know.info.dto.SysUserDto">
+        <id column="user_id" property="userId" />
+        <result column="dept_id" property="deptId" />
+        <result column="user_name" property="userName" />
+        <result column="nick_name" property="nickName" />
+        <result column="user_type" property="userType" />
+        <result column="email" property="email" />
+        <result column="phonenumber" property="phonenumber" />
+        <result column="sex" property="sex" />
+        <result column="status" property="status" />
+        <result column="del_flag" property="delflag" />
+        <result column="login_ip" property="loginIp" />
+        <result column="login_date" property="loginTime" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createBy" />
+        <result column="remark" property="remark" />
+    </resultMap>
+    <!-- 通用查询条件列 -->
+    <sql id="Base_Where_List">
+         WHERE 1 = 1
+        <!--like查询-->
+        
+        <if test="userName!=null and userName!=''">
+            AND user_name like "%"#{userName}"%"
+        </if>
+        <if test="userId!=null and userId!=''">
+            AND user_id = #{userId}
+        </if>
+        <if test="status!=null and status!=''">
+            AND status = #{status}
+        </if>
+    </sql>
+<!--查询全表resultType="SysUserDto"-->
+    <select id="questSysUserList" resultMap="BaseResultMap" >
+        SELECT * from sys_user
+        <include refid="Base_Where_List" />
+       <!-- <choose>
+            <when test="sort !=null and sort !=''">
+                order by  ${sort} ${direction}
+            </when>
+            <otherwise>
+                order by create_time desc
+            </otherwise>
+        </choose>-->
+<!--        and d.link_type in ( ${linkType} )-->
+    </select>
+
+    <!--传map或者实体类都行-->
+    <select id="questSysUserListMap" resultMap="BaseResultMap" >
+        SELECT * from sys_user
+        <include refid="Base_Where_List" />
+        <!-- <choose>
+             <when test="sort !=null and sort !=''">
+                 order by  ${sort} ${direction}
+             </when>
+             <otherwise>
+                 order by create_time desc
+             </otherwise>
+         </choose>-->
+
+    </select>
+
     <!--1对1查询-->
-   <resultMap type="userDto" id="userMap">
+   <resultMap type="com.know.info.dto.UserDto" id="userMap">
         <id column="id" property="id"/>
         <result column="userName" property="userName"/>
         <result column="orgId" property="orgId"/>
 
-        <association property="orgDto" javaType="OrgDto">
-            <result column="orgIds" property="orgId"/>
-            <result column="CREATE_TIME" property="createTime"/>
-        </association>
-    </resultMap>
+<!--        <association property="orgDto" javaType="com.know.info.dto.OrgDto">-->
+<!--            <result column="orgIds" property="orgId"/>-->
+<!--            <result column="CREATE_TIME" property="createTime"/>-->
+<!--        </association>-->
+
+
+       <!--1对多-->
+      <!-- <collection property="orgDto" javaType="com.know.info.dto.OrgDto" >
+           <id column="id" property="id"/>
+           <result column="orgIds" property="orgId"/>
+           <result column="CREATE_TIME" property="createTime"/>
+       </collection>-->
+
+
+   </resultMap>
     <!--DATE_FORMAT(b.CREATE_TIME, '%Y-%m-%d') AS E_DATE-->
-    <select id="questUserList" resultType="UserDto" resultMap="userMap">
+    <select id="questUserList"  resultMap="userMap">
         SELECT a.user_id AS id, a.user_name AS userName, a.org_id AS orgId,b.ID as orgIds,b.CREATE_TIME
          FROM USER a LEFT JOIN usi_org b ON a.org_id=b.ID WHERE b.ID=#{orgDto.orgId}
     </select>
 
 
-<!--根据id查询-->
-    <select id="queryIdUserList" resultType="UserDto">
+
+
+<!--根据id查询\resultType="com.know.info.dto.UserDto"-->
+    <select id="queryIdUserList" >
         SELECT user_id AS id, user_name AS NAME, org_id AS age FROM USER  WHERE user_id=#{id}
     </select>
 
@@ -39,7 +114,11 @@
         <foreach collection="list" index="index" item="item"  separator="," >
             (#{item.orgId},#{item.userCode},#{item.userName},#{item.mphone},#{item.email})
         </foreach>
-    </insert>
 
+        <!--<foreach collection="suffixs.split(',')" item="suffix" index="index"
+                 open="" close="" separator="">
+            or sheet_code like '%${suffix}'
+        </foreach>-->
+    </insert>
 
 </mapper>

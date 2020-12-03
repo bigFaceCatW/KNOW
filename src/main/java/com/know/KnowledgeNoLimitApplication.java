@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Author: Facecat
  * @Date: 2020/1/9 9:23
  */
+//@ComponentScan({"com.know"})
+//@EnableAutoConfiguration
 @SpringBootApplication
 @EnableTransactionManagement  //开启事务
 @ServletComponentScan    //servlet配置

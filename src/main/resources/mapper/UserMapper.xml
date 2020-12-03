@@ -87,32 +87,41 @@
    </resultMap>
     <!--DATE_FORMAT(b.CREATE_TIME, '%Y-%m-%d') AS E_DATE-->
     <select id="questUserList"  resultMap="userMap">
-        SELECT a.user_id AS id, a.user_name AS userName, a.org_id AS orgId,b.ID as orgIds,b.CREATE_TIME
+        SELECT a.user_id AS id,
+        a.user_name AS userName,
+        a.org_id AS orgId,b.ID as orgIds,b.CREATE_TIME
          FROM USER a LEFT JOIN usi_org b ON a.org_id=b.ID WHERE b.ID=#{orgDto.orgId}
     </select>
 
 
 
 
-<!--根据id查询\resultType="com.know.info.dto.UserDto"-->
-    <select id="queryIdUserList" >
-        SELECT user_id AS id, user_name AS NAME, org_id AS age FROM USER  WHERE user_id=#{id}
+
+
+    <select id="queryMapList" resultType="com.know.info.dto.SysUserDto" >
+        SELECT user_id AS userId,
+        user_name AS userName
+        FROM sys_user  WHERE user_id=#{userId}
+    </select>
+
+    <select id="queryMap" resultType="map" >
+        SELECT user_id AS userId, user_name AS userName FROM sys_user  WHERE user_id=#{userId}
     </select>
 
     <!--插入返回主键-->
     <insert id="postUser" useGeneratedKeys="true" keyProperty="id" >
-       insert into user
-        (ORG_ID,USER_CODE,USER_NAME,MPHONE_NO,EMAIL)
+       insert into sys_user
+        (dept_id,user_name,nick_name)
         values
-        (#{orgId},#{userCode},#{userName},#{mphone},#{email});
+        (#{deptId},#{userName},#{nickName});
     </insert>
     <!--批量插入-->
     <insert id="addBatchUser">
-        insert into user
-        (ORG_ID,USER_CODE,USER_NAME,MPHONE_NO,EMAIL)
+        insert into sys_user
+        (dept_id,user_name,nick_name)
         values
         <foreach collection="list" index="index" item="item"  separator="," >
-            (#{item.orgId},#{item.userCode},#{item.userName},#{item.mphone},#{item.email})
+            (#{item.deptId},#{item.userName},#{item.nickName})
         </foreach>
 
         <!--<foreach collection="suffixs.split(',')" item="suffix" index="index"
@@ -120,5 +129,13 @@
             or sheet_code like '%${suffix}'
         </foreach>-->
     </insert>
+    <!--批量修改:批量处理的时候需要在jdbc连接后面加上：allowMultiQueries=true，因为默认是不支持批处理的。-->
+    <update id="updateBatchUser" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            UPDATE sys_user
+            SET dept_id = #{item.deptId},user_name= #{item.userName},nick_name = #{item.mobile}
+            WHERE user_id = #{item.userId}
+        </foreach>
+    </update>
 
 </mapper>

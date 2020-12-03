@@ -104,21 +104,6 @@ public class CommonUtil {
 		}
 	}
 	
-	
-//	public static void main(String[] args){
-//		String  s=CommonUtil.changeString("联通集团->安徽省->合肥市->肥东县->第一区->XX班组", "->", 10, "---------->");
-//		String  s1=CommonUtil.changeString("联通集团->安徽省->合肥市->肥东县->第一区->XX班组", "->", 2, "---------->");
-//		String  s2=CommonUtil.changeString("联通集团.安徽省.合肥市.肥东县.第一区.XX班组", "\\.", 2, "---------->");
-//		String  s3=CommonUtil.changeString("联通集团", "\\.", 2, "---------->");
-//		String  s4=CommonUtil.changeString("联通集团.安徽省", "\\.", 2, "---------->");
-//		String  s5=CommonUtil.changeString("联通集团.安徽省.合肥市", "\\.", 2, "---------->");
-//		System.out.println(s);
-//		System.out.println(s1);
-//		System.out.println(s2);
-//		System.out.println(s3);
-//		System.out.println(s4);
-//		System.out.println(s5);
-//	}
-	
+
     
 }

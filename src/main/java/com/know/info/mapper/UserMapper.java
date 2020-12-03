@@ -23,9 +23,13 @@ public interface UserMapper {
 
     List<UserDto> queryIdUserList(long id);
 
+    List<SysUserDto> queryMapList(Map<String, Object> map);
+
     long postUser(UserDto userDto);
 
     long addBatchUser(List<UserDto> userDtos);
+
+    Map<String,Object> queryMap(Map<String, Object> map);
 
     List<SysUserDto> questSysUserListMap(Map<String, Object> map);
 }

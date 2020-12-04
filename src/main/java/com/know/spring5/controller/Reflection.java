@@ -21,16 +21,17 @@ import java.lang.reflect.Method;
 @Configuration
 public class Reflection {
     private static final Logger logger = LoggerFactory.getLogger(Reflection.class);
+
+    private static final String GTR = "com.know.spring5.controller.GetBean";
     @Autowired
     private ApplicationContext applicationContext;
 
-    private static String GTR = "com.know.spring5.controller.GetBean";
+
 
     @Bean
     public void text() {
         try {
             Class<?> getBean = Class.forName(GTR);
-
             GetBean dto = (GetBean) GlobalApplicationContextHolder.getBean(getBean);
             GetBean dto1 = (GetBean) applicationContext.getBean(getBean);
             GetBean dto2 = (GetBean)getBean.newInstance();

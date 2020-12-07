@@ -45,7 +45,7 @@ public class ZkWatcher {
 
     public static void main(String[] args) throws Exception {
         CuratorFramework curatorFramework = CuratorFrameworkFactory.builder()
-                .connectString("10.190.3.172:5888")//集群直接，分割增加
+                .connectString("127.0.0.1:2181")//集群直接，分割增加
                 .sessionTimeoutMs(16000)
                 .retryPolicy(new ExponentialBackoffRetry(1000, 3))//容错重试每睡1秒重试一次，总共3次，递增增加时间
                 .build();

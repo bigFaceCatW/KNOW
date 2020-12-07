@@ -44,6 +44,5 @@ public class Reflection {
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-
     }
 }

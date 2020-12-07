@@ -22,7 +22,7 @@ public class ZkConfig implements Watcher {
     /** 定义session失效时间 */
     private static final int SESSION_TIMEOUT = 10000;
     /** zookeeper服务器地址 */
-    private static final String CONNECTION_ADDR = "10.190.3.172:5888";
+    private static final String CONNECTION_ADDR = "127.0.0.1:2181";
     /** zk父路径设置 */
     private static final String PARENT_PATH = "/p";
     /** zk子路径设置 */

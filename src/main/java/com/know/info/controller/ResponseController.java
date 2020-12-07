@@ -23,9 +23,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/request")
 public class ResponseController {
-
     private static final Logger logger = LoggerFactory.getLogger(ResponseController.class);
-
 
 @Resource
 private ConsumersService consumersService;
@@ -33,10 +31,10 @@ private ConsumersService consumersService;
 @Resource
 private UserMapper userMapper;
 
-    @PostMapping("/getDto")
+    @PostMapping("/getDto测试")
     public Map<String,Object> getDto(SysUserDto userDtoParam){
         Map<String, Object> map = new HashMap<String, Object>();
-
+//测试
         SysUserDto userDto = userDtoParam;
         List<SysUserDto> sysUserDtoList=userMapper.questSysUserList(userDto);
         for(SysUserDto dto:sysUserDtoList){

@@ -53,9 +53,9 @@
 //            Channel channel = sshSession.openChannel("sftp");  
 //            channel.connect();  
 //            sftp = (ChannelSftp) channel;  
-//            LOGGER.info("Connected to " + FTP_HOST_IP + ".");
+//            LOGGER.mybatis("Connected to " + FTP_HOST_IP + ".");
 //        } catch (Exception e) {  
-//        	LOGGER.info(e.getMessage());
+//        	LOGGER.mybatis(e.getMessage());
 //           // e.printStackTrace() ;  
 //        }  
 //        return sftp;  
@@ -80,9 +80,9 @@
 //            Channel channel = sshSession.openChannel("sftp");  
 //            channel.connect();  
 //            sftp = (ChannelSftp) channel;  
-//            LOGGER.info("Connected to " + ftpHoseIp + ".");
+//            LOGGER.mybatis("Connected to " + ftpHoseIp + ".");
 //        } catch (Exception e) {  
-//        	LOGGER.info(e.getMessage());
+//        	LOGGER.mybatis(e.getMessage());
 //           // e.printStackTrace() ;  
 //        }  
 //        return sftp;  
@@ -104,14 +104,14 @@
 //        				sftp.cd(tmpDir);
 //        			}
 //        		}catch(SftpException e) {
-//        			LOGGER.info("目录不存在，需要创建，异常就不打印了。。。");
+//        			LOGGER.mybatis("目录不存在，需要创建，异常就不打印了。。。");
 //        			//创建一个目录并cd到那个目录下面，为了下一次
 //        			sftp.mkdir(tmpDir);
 //        			sftp.cd(tmpDir);
 //        		}
 //        	}
 //		} catch (SftpException e) {
-//			LOGGER.info("创建目录失败了。。。");
+//			LOGGER.mybatis("创建目录失败了。。。");
 //			//e.printStackTrace();
 //		}  
 //          
@@ -137,7 +137,7 @@
 //			createDir(dir,sftp);
 //			sftp.put(fis,newFileName);
 //		} catch (Exception e) {
-//			LOGGER.info("sftp文件上传失败。。。");
+//			LOGGER.mybatis("sftp文件上传失败。。。");
 //			flag = false;
 //			//e.printStackTrace();
 //		} finally {
@@ -152,7 +152,7 @@
 //					sftpSession.disconnect();
 //				}
 //			} catch (JSchException e) {
-//				LOGGER.info(e.getMessage());
+//				LOGGER.mybatis(e.getMessage());
 //				//e.printStackTrace();
 //			}
 //		}
@@ -175,7 +175,7 @@
 //			sftp.cd(sftp.getHome());
 //			sftp.get(fileName, os);
 //		} catch (Exception e) {
-//			LOGGER.info("sftp文件下载失败。。。");
+//			LOGGER.mybatis("sftp文件下载失败。。。");
 //			flag = false;
 //			//e.printStackTrace();
 //		}finally {
@@ -190,7 +190,7 @@
 //					sftpSession.disconnect();
 //				}
 //			} catch (JSchException e) {
-//				LOGGER.info(e.getMessage());
+//				LOGGER.mybatis(e.getMessage());
 //				//e.printStackTrace();
 //			}
 //		}
@@ -205,7 +205,7 @@
 //			sftp.cd(sftp.getHome());
 //			sftp.get(fileName, os);
 //		} catch (Exception e) {
-//			LOGGER.info("sftp文件下载失败。。。");
+//			LOGGER.mybatis("sftp文件下载失败。。。");
 //			flag = false;
 //			//e.printStackTrace();
 //		}finally {
@@ -220,7 +220,7 @@
 //					sftpSession.disconnect();
 //				}
 //			} catch (JSchException e) {
-//				LOGGER.info(e.getMessage());
+//				LOGGER.mybatis(e.getMessage());
 //				//e.printStackTrace();
 //			}
 //		}
@@ -240,7 +240,7 @@
 //			sftp.cd(sftp.getHome());
 //			sftp.rm(fileName);  
 //		} catch (Exception e) {
-//			LOGGER.info("sftp文件删除失败。。。");
+//			LOGGER.mybatis("sftp文件删除失败。。。");
 //			flag = false;
 //			//e.printStackTrace();
 //		}finally {
@@ -255,7 +255,7 @@
 //					sftpSession.disconnect();
 //				}
 //			} catch (JSchException e) {
-//				LOGGER.info(e.getMessage());
+//				LOGGER.mybatis(e.getMessage());
 //				//e.printStackTrace();
 //			}
 //

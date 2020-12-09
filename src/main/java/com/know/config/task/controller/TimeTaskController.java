@@ -125,7 +125,7 @@ public class TimeTaskController {
 			InetAddress ia = null;
 			ia = ia.getLocalHost();
 			String localIp=ia.getHostAddress();//获取操作电脑的的ip地址
-			LOGGER.info("本机ip地址为【{}】",localIp);
+			LOGGER.mybatis("本机ip地址为【{}】",localIp);
 			saveSysLogDto.setOptIp(localIp);
 			saveSysLogDto.setOptContent("sys_timer:"+JacksonUtil.obj2json(t));
 			saveSysLogService.insertSysLog(saveSysLogDto,shardingId);
@@ -186,7 +186,7 @@ public class TimeTaskController {
 			InetAddress ia = null;
 			ia = ia.getLocalHost();
 			String localIp=ia.getHostAddress();//获取操作电脑的的ip地址
-			LOGGER.info("本机ip地址为【{}】",localIp);
+			LOGGER.mybatis("本机ip地址为【{}】",localIp);
 			saveSysLogDto.setOptIp(localIp);
 			SysTimerDto result = taskService.queryFormerTimer(t, shardingId);
 			saveSysLogDto.setOptContent("sys_timer:原记录="+JacksonUtil.obj2json(result)+"新记录="+JacksonUtil.obj2json(t));
@@ -246,7 +246,7 @@ public class TimeTaskController {
 			InetAddress ia = null;
 			ia = ia.getLocalHost();
 			String localIp=ia.getHostAddress();//获取操作电脑的的ip地址
-			LOGGER.info("本机ip地址为【{}】",localIp);
+			LOGGER.mybatis("本机ip地址为【{}】",localIp);
 			saveSysLogDto.setOptIp(localIp);
 			saveSysLogDto.setOptContent("sys_timer:UPDATE SYS_TIMER SET DEL_FLAG=1 WHERE TIMER_ID="+timerId);
 			saveSysLogService.insertSysLog(saveSysLogDto,shardingId);

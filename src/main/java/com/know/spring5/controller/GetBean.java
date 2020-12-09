@@ -1,6 +1,6 @@
 package com.know.spring5.controller;
 
-import com.know.info.dto.SysUserDto;
+import com.know.mybatis.dto.SysUserDto;
 import com.know.spring5.configuration.MyConfig;
 import org.junit.Test;
 import org.slf4j.Logger;

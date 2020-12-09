@@ -11,7 +11,7 @@ import java.net.MalformedURLException;
 /**
  * Demo class
  * 
- * @author test
+ * @author Test
  * @date 2018/10/31
  */
 public class FtpUtil {
@@ -325,7 +325,7 @@ public class FtpUtil {
 //        	try {
 //        		os = new FileOutputStream(localFile);
 //				boolean flag=download(os, uploadPath+"/video/ahadmin/20181109093136815.wav");
-//				LOGGER.info(flag);
+//				LOGGER.mybatis(flag);
 //			} catch (Exception e) {
 //				e.printStackTrace();
 //			}finally{
@@ -343,7 +343,7 @@ public class FtpUtil {
 //			boolean flag=uploadFile(uploadPath, "lishiwei.mp4", "C:\\Users\\雨木花草\\Desktop\\lishiwei.mp4");
      //       boolean flag=downloadFile(uploadPath, "0949393456119.mp4", "C:\\Users\\小白呀\\Desktop");
 //           boolean flag=deleteFile(uploadPath, "LA1.jpg");
-//        	LOGGER.info(flag);
+//        	LOGGER.mybatis(flag);
         	System.exit(0);
         }
 }

@@ -86,15 +86,15 @@
 //        if (!StringUtil.isBlank(userName)) {
 //            //用户名密码方式 begin
 //            try {
-//                logger.info("Kafka认证配置开始。。。。");
+//                logger.mybatis("Kafka认证配置开始。。。。");
 //                propsMap.put("security.protocol", "SASL_PLAINTEXT");
 //                propsMap.put("sasl.mechanism", "SCRAM-SHA-256");//PLAIN
 //                propsMap.put("sasl.jaas.config",
 //                        "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"" + userName + "\" password=\"" + password + "\";");
 //                //用Listener户名密码方式 end
-//                logger.info("Kafka认证配置结束。。。。");
+//                logger.mybatis("Kafka认证配置结束。。。。");
 //            } catch (Exception e) {
-//                logger.info(e.getMessage(), e);
+//                logger.mybatis(e.getMessage(), e);
 //            }
 //        }
 //        return propsMap;

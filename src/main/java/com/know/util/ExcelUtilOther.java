@@ -1,6 +1,6 @@
 package com.know.util;
 
-import com.know.info.dto.RateDTO;
+import com.know.mybatis.dto.RateDTO;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -90,7 +90,7 @@ public class ExcelUtilOther {
             // 返回输入流,在strusts2导出时可用
             return new ByteArrayInputStream(b);
         } catch (Exception e) {
-        	logger.info(e.getMessage());
+        	logger.mybatis(e.getMessage());
         } finally {
             closeStream(fos);
         }

@@ -16,6 +16,7 @@ import java.util.Random;
  * @Author: FaceCat
  * @Date: 2020/10/18 9:01
  */
+//redis分布式锁
 public class RedisTool{
 
     public static final Logger logger = LoggerFactory.getLogger(RedisTool.class);

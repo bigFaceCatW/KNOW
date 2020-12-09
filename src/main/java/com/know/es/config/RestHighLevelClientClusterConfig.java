@@ -47,7 +47,7 @@
 //
 //    @Bean(autowire = Autowire.BY_NAME, name = "restHighLevelClient")
 //    public RestHighLevelClient client() {
-//        LOGGER.info("ES Rest客户端初始化开始。。。。。");
+//        LOGGER.mybatis("ES Rest客户端初始化开始。。。。。");
 //        String hostName = "";
 //        int port = 0;
 //        for (String node : nodes.split(",")) {
@@ -74,7 +74,7 @@
 //                return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
 //            }
 //        }));
-//        LOGGER.info("ES Rest客户端初始化结束。。。。。");
+//        LOGGER.mybatis("ES Rest客户端初始化结束。。。。。");
 //        return client;
 //    }
 //

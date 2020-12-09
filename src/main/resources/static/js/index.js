@@ -158,7 +158,7 @@ var vm = new Vue({
 });
 
 vm.$watch('kilometers',function (newValue,oldValue) {  //与4效果一样
-    $("#info").html('新值：'+newValue+'------'+'旧值：'+oldValue)
+    $("#mybatis").html('新值：'+newValue+'------'+'旧值：'+oldValue)
     this.kilometers=newValue;
     this.meter = this.kilometers * 1000;
 })

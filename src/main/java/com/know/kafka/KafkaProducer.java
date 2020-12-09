@@ -16,7 +16,7 @@ import java.util.UUID;
  * @Author: Facecat
  * @Date: 2020/2/29 19:39
  */
-//基于注解的方式
+//基于注解的方式 ，开始定时器发送
 //@Configuration
 @Slf4j
 @EnableScheduling
@@ -30,7 +30,7 @@ public class KafkaProducer {
     public void send() {
              String message = UUID.randomUUID().toString();
 //        ListenableFuture<SendResult<Integer, String>> future= kafkaTemplate.send(ContentUtil.TOPIC_COURSELIKE_DETAIL,1,message);
-//        future.addCallback(success -> log.info("发送消息成功:" + message),
+//        future.addCallback(success -> log.mybatis("发送消息成功:" + message),
 //                fail -> log.error("KafkaMessageProducer 发送消息失败！"));
 
             ListenableFuture<SendResult<Integer, String>> future = kafkaTemplate.send(ContentUtil.TOPIC_COURSELIKE_DETAIL,message);

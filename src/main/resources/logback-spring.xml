@@ -12,14 +12,14 @@
         </encoder>
     </appender>
 
-    <logger name="com.know.info.mapper.*" level="DEBUG" />
+    <logger name="com.know.mybatis.mapper.*" level="DEBUG" />
 
     <!--输出到文件-->
  <!--   <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
-        <file>${log.path}/${app.name}-info.log</file>
+        <file>${log.path}/${app.name}-mybatis.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${log.path}/${app.name}-info.log.%i</fileNamePattern>
+            <fileNamePattern>${log.path}/${app.name}-mybatis.log.%i</fileNamePattern>
             <minIndex>1</minIndex>
             <maxIndex>10</maxIndex>
         </rollingPolicy>

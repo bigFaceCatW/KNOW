@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Demo class
  * 
- * @author test
+ * @author Test
  * @date 2018/10/31
  */
 public class Md5Util {

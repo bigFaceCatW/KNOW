@@ -88,10 +88,10 @@
 //    public static Integer deleteByParams(String index, String type, String json) throws Exception {
 //        try {
 //            SearchSourceBuilder searchRequestBuilder = searchRequestBuilder(json);
-//            log.info("删除的查询语句：\n{}", searchRequestBuilder);
+//            log.mybatis("删除的查询语句：\n{}", searchRequestBuilder);
 //            String ip = nodes.split(",")[0];
 //            String rtn = OkHttpUtil.postJsonParams("http://" + ip + "/" + index + "/" + type + "/_delete_by_query", searchRequestBuilder.toString());
-//            log.info("删除结果：\n{}", rtn);
+//            log.mybatis("删除结果：\n{}", rtn);
 //            if (null != rtn && !rtn.isEmpty()) {
 //                com.alibaba.fastjson.JSONObject jSONObject = JSON.parseObject(rtn);
 //                if (null != jSONObject.get("deleted") && !jSONObject.get("deleted").toString().isEmpty()) {
@@ -204,7 +204,7 @@
 //            if (response.getResult() == DocWriteResponse.Result.NOT_FOUND) {
 //                log.error("不存在该文档，请检查参数！");
 //            }
-//            log.info("文档已删除！");
+//            log.mybatis("文档已删除！");
 //            ReplicationResponse.ShardInfo shardInfo = response.getShardInfo();
 //            if (shardInfo.getTotal() != shardInfo.getSuccessful()) {
 //                log.error("部分分片副本未处理");
@@ -883,7 +883,7 @@
 //            } else {
 //                searchRequestBuilder.size(10000);  //不分页查询全部（不设置size默认值返回10条记录）
 //            }
-//            log.info("\n{}", searchRequestBuilder);//打印的内容 可以在 Elasticsearch head 和 Kibana  上执行查询
+//            log.mybatis("\n{}", searchRequestBuilder);//打印的内容 可以在 Elasticsearch head 和 Kibana  上执行查询
 //            request.source(searchRequestBuilder);
 //            SearchResponse searchResponse = client.search(request);
 //
@@ -930,7 +930,7 @@
 //            searchRequestBuilder.size(ONCE_SCROLL_NUM);
 //        }
 //
-//        log.info("查询语句：{}", searchRequestBuilder);
+//        log.mybatis("查询语句：{}", searchRequestBuilder);
 //        request.source(searchRequestBuilder);
 //        try {
 //            SearchResponse searchResponse = client.search(request);
@@ -1057,7 +1057,7 @@
 //            searchRequestBuilder.size(ONCE_SCROLL_NUM);
 //        }
 //
-//        log.info("查询语句：{}", searchRequestBuilder);
+//        log.mybatis("查询语句：{}", searchRequestBuilder);
 //        long firstStartTime = System.currentTimeMillis();
 //        request.source(searchRequestBuilder);
 //        SearchResponse searchResponse = client.search(request);
@@ -1079,7 +1079,7 @@
 //            tempFileName = writeObjectToFile(tempFileName, total);
 //        }
 //        costTime = firstEndTime - firstStartTime;
-//        log.info("query:    1  costTime:" + costTime + "    queryMum:" + total.size());
+//        log.mybatis("query:    1  costTime:" + costTime + "    queryMum:" + total.size());
 //        SearchResponse searchScrollResponse = null;
 //
 //        long secondStartTime = 0;
@@ -1115,9 +1115,9 @@
 //            totalTime = totalTime + (secondEndTime - secondStartTime);
 //            remainHis = maxExportNum - queryHis;//剩余查询数量
 //            costTime = costTime + secondEndTime - secondStartTime;
-//            log.info("query:    " + i + "   costTime:" + (secondEndTime - secondStartTime) + "    queryNum:" + total.size());
+//            log.mybatis("query:    " + i + "   costTime:" + (secondEndTime - secondStartTime) + "    queryNum:" + total.size());
 //        }
-//        log.info("查询总耗时：" + costTime);
+//        log.mybatis("查询总耗时：" + costTime);
 //        var.put("totalRows", totalHis);
 //        var.put("rows", tempFileName == null ? new ArrayList<Map<String, Object>>() : readFileByLines(tempFileName));
 //        return var;
@@ -1208,7 +1208,7 @@
 //            reader.close();
 //
 //            if (!file.delete()) {
-//                log.info("file delete error");
+//                log.mybatis("file delete error");
 //            }
 //        } catch (IOException e) {
 //            log.error(e.getMessage(), e);

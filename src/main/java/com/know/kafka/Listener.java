@@ -12,7 +12,7 @@
 //import java.util.List;
 //
 ///**
-// * Created by LIBIN on 2019/1/11 17:05
+// * Created by LIBIN on 2019/1/11 17:05 用于监听
 // * Description:
 // */
 //@Component("listener")
@@ -25,13 +25,13 @@
 //    @KafkaListener(topics = {"${kafka.consumer.topicName}"})
 //    public void listenerDts(List<ConsumerRecord<String, String>> records, Acknowledgment ack) {
 //        long startTime = System.currentTimeMillis();
-//        logger.info("监听到消息数量：" + records.size() + "，时间：" + startTime);
+//        logger.mybatis("监听到消息数量：" + records.size() + "，时间：" + startTime);
 //        try {
 //            System.out.println("监听: " + records.toString());
 //            for (ConsumerRecord<String, String> record : records) {
-//                logger.info("kafka的key: " + record.key());
-//                logger.info("kafka的value: " + record.value().toString());
-//                logger.info("kafka的offset: " + record.offset());
+//                logger.mybatis("kafka的key: " + record.key());
+//                logger.mybatis("kafka的value: " + record.value().toString());
+//                logger.mybatis("kafka的offset: " + record.offset());
 //                String key = (String) record.key();
 //                System.out.println("key: " + key);
 //                if(!StringUtil.isBlank(key)){

@@ -18,7 +18,7 @@ public class ZkUtil {
    public  void  createData(CuratorFramework curatorFramework) throws Exception {
 
         curatorFramework.create().creatingParentContainersIfNeeded()//实现递归创建节点
-                .withMode(CreateMode.PERSISTENT).forPath("/data/curator1", "test".getBytes());
+                .withMode(CreateMode.PERSISTENT).forPath("/data/curator1", "Test".getBytes());
 
     }
 

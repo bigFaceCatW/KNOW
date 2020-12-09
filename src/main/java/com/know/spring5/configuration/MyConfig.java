@@ -1,6 +1,6 @@
 package com.know.spring5.configuration;
 
-import com.know.info.dto.SysUserDto;
+import com.know.mybatis.dto.SysUserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.*;

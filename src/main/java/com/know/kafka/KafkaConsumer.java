@@ -28,7 +28,7 @@ public class KafkaConsumer {
 //没有指定所有消息都会接受
 //  @KafkaListener(topics={"topicChannle"})
 //    public void receive1(@Payload String message, @Headers MessageHeaders headers){
-//        log.info("接收到消息1："+message);
+//        log.mybatis("接收到消息1："+message);
 //    }
 //
 
@@ -38,7 +38,7 @@ public class KafkaConsumer {
 //   public void consumerTwo(ConsumerRecord record) {
 //       Optional msg = Optional.ofNullable(record.value());
 //       if (msg.isPresent()) {
-//           log.info("consumer1-1接收到消息：" + record.value());
+//           log.mybatis("consumer1-1接收到消息：" + record.value());
 //       }
 //   }
 
@@ -48,7 +48,7 @@ public class KafkaConsumer {
 //    public void consumerTwo1(ConsumerRecord record) {
 //        Optional msg = Optional.ofNullable(record.value());
 //        if (msg.isPresent()) {
-//            log.info("consumer1-2接收到消息：" + record.value());
+//            log.mybatis("consumer1-2接收到消息：" + record.value());
 //        }
 //    }
 

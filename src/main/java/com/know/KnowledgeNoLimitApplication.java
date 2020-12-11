@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 //@ComponentScan({"com.know"})
 //@EnableAutoConfiguration
 @SpringBootApplication
-@EnableTransactionManagement  //开启事务
+@EnableTransactionManagement(proxyTargetClass=true)  //开启事务,这是true为了service能注入到controller中
 @ServletComponentScan    //servlet配置
 @MapperScan("com.know.mp.mapper")
 public class KnowledgeNoLimitApplication {

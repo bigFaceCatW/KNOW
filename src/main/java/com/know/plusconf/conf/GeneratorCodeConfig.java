@@ -31,9 +31,9 @@ public class GeneratorCodeConfig {
         gc.setAuthor("FaceCat");
         gc.setOpen(true);
         // service 命名方式
-        gc.setServiceName("%sService");
+//        gc.setServiceName("%sService");
         // service impl 命名方式
-        gc.setServiceImplName("%sServiceImpl");
+        gc.setServiceImplName("%sService");
         // 自定义文件命名，注意 %s 会自动填充表实体属性！
         gc.setMapperName("%sMapper");
         gc.setXmlName("%sMapper");
@@ -60,8 +60,8 @@ public class GeneratorCodeConfig {
         //pc.setModuleName(scanner("模块名"));
         pc.setParent("com.know.user");
         pc.setEntity("dto");
-        pc.setService("service");
-        pc.setServiceImpl("serviceImpl");
+//        pc.setService("service");
+        pc.setServiceImpl("service");
         mpg.setPackageInfo(pc);
 
         // 自定义需要填充的字段

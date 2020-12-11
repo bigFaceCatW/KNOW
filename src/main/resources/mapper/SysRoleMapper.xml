@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.know.mp.SysRoleMapper">
+<mapper namespace="com.know.mp.mapper.SysRoleMapper">
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.know.mp.dto.SysRole">
@@ -17,5 +17,90 @@
         <result column="update_time" property="updateTime" />
         <result column="remark" property="remark" />
     </resultMap>
+
+    <!-- 通用查询条件列 -->
+    <sql id="Base_Where_List">
+        WHERE 1 = 1
+        <!--like查询-->
+        <if test="roleName!=null and roleName!=''">
+            AND role_name like "%"#{roleName}"%"
+        </if>
+        <if test="delFlag!=null and delFlag!=''">
+            AND del_flag in ( ${delFlag} )
+        </if>
+        <choose>
+            <when test="updateTime !=null and updateTime !=''">
+                order by  ${updateTime}
+            </when>
+            <otherwise>
+                order by create_time desc
+            </otherwise>
+        </choose>
+    </sql>
+
+    <select id="queryMapList" resultMap="BaseResultMap" >
+        SELECT *  FROM sys_role
+        <include refid="Base_Where_List" />
+    </select>
+
+    <select id="queryMap" resultMap="BaseResultMap" >
+        SELECT  role_id,role_name,role_key  FROM sys_role  <!--不写as返回的字段为数据库_的字段-->
+        where role_id=1
+    </select>
+
+    <!--插入返回主键-->
+   <!-- <insert id="postUser" useGeneratedKeys="true" keyProperty="id" >
+        insert into sys_user
+        (dept_id,user_name,nick_name)
+        values
+        (#{deptId},#{userName},#{nickName});
+    </insert>-->
+
+    <!--批量插入-->
+<!--    <insert id="addBatchUser">
+        insert into sys_role
+        (role_name,role_key,role_sort)
+        values
+        <foreach collection="list" index="index" item="item"  separator="," >
+            (#{item.roleName},#{item.roleKey},#{item.roleSort})
+        </foreach>
+     &lt;!&ndash;字符串&ndash;&gt;
+        &lt;!&ndash;<foreach collection="suffixs.split(',')" item="suffix" index="index"
+                 open="" close="" separator="">
+            or sheet_code like '%${suffix}'
+        </foreach>&ndash;&gt;
+</insert>-->
+    <!--批量修改-->
+  <!--  <update id="updateBatchUser" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            UPDATE sys_user
+            SET dept_id = #{item.deptId},user_name= #{item.userName},nick_name = #{item.mobile}
+            WHERE user_id = #{item.userId}
+        </foreach>
+    </update>-->
+
+    <!--1对1查询-->
+<!--    <resultMap type="com.know.info.dto.UserDto" id="userMap">-->
+<!--        <id column="id" property="id"/>-->
+<!--        <result column="userName" property="userName"/>-->
+<!--        <result column="orgId" property="orgId"/>-->
+        <!--        <association property="orgDto" javaType="com.know.info.dto.OrgDto">-->
+        <!--            <result column="orgIds" property="orgId"/>-->
+        <!--            <result column="CREATE_TIME" property="createTime"/>-->
+        <!--        </association>-->
+        <!--1对多-->
+        <!-- <collection property="orgDto" javaType="com.know.info.dto.OrgDto" >
+             <id column="id" property="id"/>
+             <result column="orgIds" property="orgId"/>
+             <result column="CREATE_TIME" property="createTime"/>
+         </collection>-->
+<!--    </resultMap>-->
+<!--    <select id="questUserList"  resultMap="userMap">-->
+<!--        SELECT a.user_id AS id,-->
+<!--        a.user_name AS userName,-->
+<!--        a.org_id AS orgId,b.ID as orgIds,b.CREATE_TIME-->
+<!--        FROM USER a LEFT JOIN usi_org b ON a.org_id=b.ID WHERE b.ID=#{orgDto.orgId}-->
+<!--    </select>-->
+
 
 </mapper>

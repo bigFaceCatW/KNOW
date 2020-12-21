@@ -11,12 +11,18 @@ import org.apache.commons.lang.math.RandomUtils;
 import org.apache.kafka.clients.producer.Partitioner;
 import org.apache.kafka.common.Cluster;
 import org.apache.kafka.common.PartitionInfo;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Map;
 
 
+
 public class Partition implements Partitioner {
+    private static final Logger logger = LoggerFactory.getLogger(Partition.class);
+
+
+
     @Override
     public int partition(String topic, Object key, byte[] bytes, Object value, byte[] bytes1, Cluster cluster) {
         List<PartitionInfo> partitionInfos = cluster.partitionsForTopic(topic);//获取分区列表
@@ -26,7 +32,7 @@ public class Partition implements Partitioner {
         }else {
             partitionNum = Math.abs((key.hashCode()) % partitionInfos.size());//根据key哈希算法分区
         }
-    System.out.println("key ->"+key+"->value->"+value+"->"+partitionNum);
+        logger.error("key ->"+key+"->value->"+value+"->"+partitionNum);
         return partitionNum;//分区的值
     }
 

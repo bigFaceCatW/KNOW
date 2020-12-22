@@ -207,7 +207,8 @@ public class ESRestHighClientTest {
          SearchRequest request = new SearchRequest("cat1");
          SearchSourceBuilder builder = new SearchSourceBuilder();
          BoolQueryBuilder bool = QueryBuilders.boolQuery();
-//         builder.fetchSource(new String[]{"english","name","age","createTime"}, new String[]{});//设置源字段过虑,第一个参数结果集包括哪些字段，第二个参数表示结果集不包括哪些字段
+//         builder.fetchSource(new String[]{"english","name","age","createTime"}, new String[]{});
+// 设置源字段过虑,第一个参数结果集包括哪些字段，第二个参数表示结果集不包括哪些字段
 //1.查询所有数据
 //         builder.query(QueryBuilders.matchAllQuery());
 //2.精确查询 可传入数组(对多结构好像不行)

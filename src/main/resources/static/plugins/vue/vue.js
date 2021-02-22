@@ -4747,7 +4747,7 @@ function registerRef (vnode, isRemoval) {
 }
 
 /**
- * Virtual DOM patching algorithm based on Snabbdom by
+ * Virtual DOM patching base based on Snabbdom by
  * Simon Friis Vindum (@paldepind)
  * Licensed under the MIT License
  * https://github.com/paldepind/snabbdom/blob/master/LICENSE
@@ -7372,7 +7372,7 @@ var Transition = {
 // Provides transition support for list items.
 // supports move transitions using the FLIP technique.
 
-// Because the vdom's children update algorithm is "unstable" - i.e.
+// Because the vdom's children update base is "unstable" - i.e.
 // it doesn't guarantee the relative positioning of removed elements,
 // we force transition-group to update its children into two passes:
 // in the first pass, we remove all nodes that need to be removed,

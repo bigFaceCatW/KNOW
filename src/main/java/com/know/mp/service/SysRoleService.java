@@ -15,15 +15,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SysRoleService extends ServiceImpl<SysRoleMapper, SysRole>  {
-    //    public List<SysUserDto> questList(int page,int pageNum){
+    //    public List<SysUserDTO> questList(int page,int pageNum){
 //        //分页查询
 //        PageHelper.startPage(page,pageNum);
-//        SysUserDto userDto = new SysUserDto();
-//        List<SysUserDto> userList = userMapper.questSysUserList(userDto);
+//        SysUserDTO userDto = new SysUserDTO();
+//        List<SysUserDTO> userList = userMapper.questSysUserList(userDto);
 //        //得到分页的结果对象
-//        PageInfo<SysUserDto> userPageInfo = new PageInfo<>(userList);
+//        PageInfo<SysUserDTO> userPageInfo = new PageInfo<>(userList);
 //        //得到分页中的UserDto条目对象
-//        List<SysUserDto> pageList = userPageInfo.getList();
+//        List<SysUserDTO> pageList = userPageInfo.getList();
 //        //将结果存入map进行传送
 //       return pageList;
 //    }

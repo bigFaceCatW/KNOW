@@ -2,7 +2,6 @@ package com.know.redis;
 
 import com.alibaba.fastjson.JSON;
 import com.know.config.dto.PageObj;
-import com.know.mybatis.dto.OrgDto;
 import org.apache.commons.collections.map.HashedMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -110,19 +109,19 @@ public class RedisTest {
         redisTemplate.opsForHash().put("map","address",1);
         redisTemplate.opsForHash().put("map","time","2020-7-30 07:05:27");
     }
-    @Test
-    public void hashSetTnx() {
-        //-----key不存在咋添加数据，存在则不做任何动作----------
-        OrgDto dto = new OrgDto();
-        dto.setOrgId(100);
-        dto.setOrgCode("1000");
-        List<Object> list = new ArrayList<>();
-        list.add(1);
-        list.add("liuchuanfen");
-        list.add(dto);
-        redisTemplate.opsForHash().putIfAbsent("map","name","wenlei");
-        redisTemplate.opsForHash().putIfAbsent("map","anything",list);
-    }
+//    @Test
+//    public void hashSetTnx() {
+//        //-----key不存在咋添加数据，存在则不做任何动作----------
+//        OrgDto dto = new OrgDto();
+//        dto.setOrgId(100);
+//        dto.setOrgCode("1000");
+//        List<Object> list = new ArrayList<>();
+//        list.add(1);
+//        list.add("liuchuanfen");
+//        list.add(dto);
+//        redisTemplate.opsForHash().putIfAbsent("map","name","wenlei");
+//        redisTemplate.opsForHash().putIfAbsent("map","anything",list);
+//    }
 
     @Test
     public void delHashMap() {

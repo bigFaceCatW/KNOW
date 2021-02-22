@@ -1,6 +1,6 @@
 package com.know.util;
 
-import com.know.mybatis.dto.RateDTO;
+import com.know.mp.dto.SysUserDTO;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -49,7 +49,7 @@ public class ExcelUtilOther {
 //        return singleton;
 //    }
     
-    public static void exportObj2ExcelForSpring(List<RateDTO> objs, Class<?> clz, String filename, String sheetName, int pageSize,
+    public static void exportObj2ExcelForSpring(List<SysUserDTO> objs, Class<?> clz, String filename, String sheetName, int pageSize,
                                                 HttpServletRequest request, HttpServletResponse response){
     	OutputStream ouputStream = null;
     	try {
@@ -111,7 +111,7 @@ public class ExcelUtilOther {
     // 创建导出Excel的对象
 
 //    list,UserDTO .class,filename,"Sheet",list.size(),
-	public static HSSFWorkbook handleObj2Excel(List<RateDTO> objs, Class<?> clz, String sheetName, int pageSize) throws Exception {
+	public static HSSFWorkbook handleObj2Excel(List<SysUserDTO> objs, Class<?> clz, String sheetName, int pageSize) throws Exception {
         HSSFWorkbook wb = new HSSFWorkbook();
         // 获取excel标题列表并排序
         List<ExcelHeader> headers = getHeaderList(clz);
@@ -147,8 +147,9 @@ public class ExcelUtilOther {
 //                int end = (begin + pageSize);
                 int rowCount = 1;
                 for (int s=0;s<objs.size();s++){
-                    RateDTO objValue =  objs.get(s);
-                    int numSize= objValue.getOptionDTOList().size()+1;
+                    SysUserDTO objValue =  objs.get(s);
+//                    int numSize= objValue.getOptionDTOList().size()+1;
+                    int numSize= 0;
                     for (int n = begin; n < numSize; n++) {
                         row = sheet.createRow(rowCount);
                         rowCount++;
@@ -159,18 +160,18 @@ public class ExcelUtilOther {
                                 switch (x){
                                     case 0:bodys.setCellValue(BeanUtils.getProperty(objValue, headers.get(x).getFieldName()));
                                     break;
-                                    case 1:bodys.setCellValue(objValue.getQuestionAnswer());
-                                    break;
+//                                    case 1:bodys.setCellValue(objValue.getQuestionAnswer());
+//                                    break;
                                     default:bodys.setCellValue("");
                                 }
                             }else {
                                 switch (x){
-                                    case 1:bodys.setCellValue(objValue.getOptionDTOList().get(n-1).getQuestionOptionMark());
-                                        break;
-                                    case 2:bodys.setCellValue(objValue.getRateList().get(n-1).getQuestionOptionMark());
-                                        break;
-                                    case 3: bodys.setCellValue(objValue.getRateList().get(n-1).getQuestionOptionContent());
-                                        break;
+//                                    case 1:bodys.setCellValue(objValue.getOptionDTOList().get(n-1).getQuestionOptionMark());
+//                                        break;
+//                                    case 2:bodys.setCellValue(objValue.getRateList().get(n-1).getQuestionOptionMark());
+//                                        break;
+//                                    case 3: bodys.setCellValue(objValue.getRateList().get(n-1).getQuestionOptionContent());
+//                                        break;
                                     default:bodys.setCellValue("");
                                 }
                             }

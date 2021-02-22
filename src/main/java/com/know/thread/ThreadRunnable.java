@@ -35,22 +35,22 @@ public class ThreadRunnable implements Runnable {
         RedisTool.redisDelLock(jedisCluster,ContentUtil.REDIS_LOCK,lockedValue);
     }
 
-    /*public static void main(String[] args) {
-        ThreadRunnable thread = new ThreadRunnable();
-        ThreadPoolExecutor pool = new ThreadPoolExecutor(100,2000,2000,
-                TimeUnit.MICROSECONDS,
-                new LinkedBlockingDeque<>());
-        for(int i=0;i<5;i++){
-            Future future =  pool.submit(thread);
-            try{
-                Object object = future.get();
-                System.out.println("futrue返回>>>"+JSON.toJSONString(object));
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-        pool.shutdown();//关闭线程
-
-    }*/
+//    public static void main(String[] args) {
+//        ThreadRunnable thread = new ThreadRunnable();
+//        ThreadPoolExecutor pool = new ThreadPoolExecutor(100,2000,2000,
+//                TimeUnit.MICROSECONDS,
+//                new LinkedBlockingDeque<>());
+//        for(int i=0;i<5;i++){
+//            Future future =  pool.submit(thread);
+//            try{
+//                Object object = future.get();
+//                System.out.println("futrue返回>>>"+ JSON.toJSONString(object));
+//            }catch(Exception e){
+//                e.printStackTrace();
+//            }
+//        }
+//        pool.shutdown();//关闭线程
+//
+//    }
 
 }

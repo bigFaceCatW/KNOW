@@ -91,7 +91,7 @@ var vm = new Vue({
     components:{
         'com-btn':local
     },
-    computed:{ //2.计算属性：调用时直接使用methodQuery|用于侦听器
+    computed:{ //2.计算属性：调用时直接使用methodQuery|用于侦听器 会有缓存
         totalProducts:function(){
             return this.products.reduce((sum,product) =>{
                 return sum + product.value;

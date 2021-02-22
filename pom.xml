@@ -109,6 +109,16 @@
             <scope>runtime</scope>
         </dependency>
 
+<!--aop实现-->
+<!--        <dependency>-->
+<!--            <groupId>cglib</groupId>-->
+<!--            <artifactId>cglib</artifactId>-->
+<!--            <version>3.1</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
 
         <!--分页查询插件,只能给一个查询分页-->
 
@@ -124,6 +134,20 @@
                  <groupId>org.springframework.boot</groupId>
                  <artifactId>spring-boot-starter-jdbc</artifactId>
              </dependency>-->
+
+          <!--Springboot+oauth2+security 认证权限-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.security.oauth</groupId>-->
+<!--            <artifactId>spring-security-oauth2</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.security</groupId>-->
+<!--            <artifactId>spring-security-jwt</artifactId>-->
+<!--        </dependency>-->
 
         <!-- mysql数据库驱动jdbc连接数据库-->
         <dependency>

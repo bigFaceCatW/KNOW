@@ -4,6 +4,8 @@ package com.know.mp.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.know.config.annotation.optLog;
+import com.know.config.annotation.optLogConst;
 import com.know.mp.dto.SysRole;
 import com.know.mp.mapper.SysRoleMapper;
 import com.know.mp.service.SysRoleService;
@@ -11,10 +13,7 @@ import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -41,7 +40,8 @@ public class SysRoleController{
     private SysRoleMapper sysRoleMapper;
 
     @PostMapping("/add")
-    public void mpAdd(){
+    @optLog(optModul="mybatisPlus",optType= optLogConst.SEARCH,optDesc="查询增加")
+    public void mpAdd(@RequestParam Map map){
         SysRole sysRole = new SysRole();
         sysRole.setRoleName("普通角色1");
         sysRole.setRemark("普通角色1");
@@ -52,8 +52,6 @@ public class SysRoleController{
 //        删除
         sysRole.deleteById(3);
 
-        SysRole sysRole1 =sysRole.selectById(4);
-        logger.error(sysRole1.toString());
 
     }
 
@@ -124,7 +122,7 @@ public class SysRoleController{
 
 }
     @PostMapping("termQuery")
-    public List<?>termQuery(){
+    public List<?>termQuery(@RequestBody String param){
         SysRole  sysRole = sysRoleService.getOne
                 (new QueryWrapper<SysRole>().eq("role_name", "普通角色").eq("role_key", "common"));
        List<SysRole>  sysRoleList=sysRoleService.list(new QueryWrapper<SysRole>().like("role_name","角色"));

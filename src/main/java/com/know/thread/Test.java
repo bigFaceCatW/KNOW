@@ -6,8 +6,6 @@ package com.know.thread;
  */
 //线程的并发和异步
 public class Test {
-
-
     public static void ric(int num) {
         try {
             int count=0;

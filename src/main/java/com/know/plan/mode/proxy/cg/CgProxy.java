@@ -2,7 +2,6 @@ package com.know.plan.mode.proxy.cg;
 
 
 import com.know.plan.mode.proxy.jdk.PassiveProxy;
-import com.know.plan.mode.proxy.jdk.PassiveProxyInterface;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
@@ -30,8 +29,9 @@ public class CgProxy implements MethodInterceptor {
     }
 
     public static void main(String[] args) {
+//        通过设置的代理，用被代理类class对象作为入参
         CgProxy cgProxy = new CgProxy();
-        PassiveProxyInterface passiveProxyInterface= (PassiveProxyInterface) cgProxy.getInstance(PassiveProxy.class);
+        PassiveProxy passiveProxyInterface= (PassiveProxy) cgProxy.getInstance(PassiveProxy.class);
         passiveProxyInterface.action("cg代理");
     }
 }

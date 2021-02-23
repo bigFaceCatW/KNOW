@@ -114,13 +114,14 @@ public class SysRoleController{
     public List<SysRole> pageQuery(int pageNum,int pageSize){
         IPage<SysRole> sysRoleIPage = sysRoleService.page(new Page<>(pageNum, pageSize), new QueryWrapper<SysRole>().eq("role_name","普通角色"));
         List<SysRole> sysRoles = sysRoleIPage.getRecords();
-//        总页数
+//        总页数,分页关联查询
         long allPageNum = sysRoleIPage.getPages();
-        logger.error("总页数>>>"+allPageNum);
-        logger.error("pageQuery>>>"+sysRoles.toString());
+        Page<SysRole> page=sysRoleService.pageQuerySer(pageNum,pageSize);
+        logger.error("分页查询>>>"+page.toString());
         return sysRoles;
 
-}
+
+    }
     @PostMapping("termQuery")
     public List<?>termQuery(@RequestBody String param){
         SysRole  sysRole = sysRoleService.getOne

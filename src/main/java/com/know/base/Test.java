@@ -102,6 +102,7 @@ public static List<Integer> getNum(int math,int num){
         Writer out = new BufferedWriter(new FileWriter("a.txt"));
         out.write(str);
 
+//        SpringBootConfiguration、EnableAutoConfiguration、ComponentScan
 
 
 

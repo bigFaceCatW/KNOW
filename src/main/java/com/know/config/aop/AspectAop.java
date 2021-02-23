@@ -22,17 +22,17 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 //@Aspect 注解用来描述一个切面类，定义切面类的时候需要打上这个注解。
 // @Component 注解将该类交给 Spring 来管理
+//joinpoint连接点
+//pointcut切入点
 public class AspectAop {
 //    @Pointcut("@annotation(org.springframework.web.bind.annotation.PostMapping)")
 //    private void postPointcut(){
-//
 //    }
 
-//    @Pointcut(value = "@annotation(com.noob.annotation.OpLog)")用于独立的注解，argNames3
+//    @Pointcut(value = "@annotation(com.noob.annotation.OpLog)")用于独立的注解,标注了这个注解就会被拦截到
 //    public void methodPointcut(){}
 
     @Pointcut(value = "@annotation(accessLog)", argNames = "accessLog")
-
     private void logPointcut(optLog accessLog) {
 
     }
@@ -41,7 +41,7 @@ public class AspectAop {
 //    第一个 * 号的位置：表示返回值类型，* 表示所有类型。
 //    包名：表示需要拦截的包名，后面的两个句点表示当前包和当前包的所有子包，
 //    在本例中指 com.mutest.controller包、子包下所有类的方法。
-//    第二个 * 号的位置：表示类名，* 表示所有类。
+//    第二个 * 号的位置：表示类名，*表示所有类。
 //    *(..)：这个星号表示方法名，* 表示所有的方法，后面括弧里面表示方法的参数，两个句点表示任何参数。
     public void beforeLogPoint() {
     }
